@@ -3,20 +3,24 @@ import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { Button } from "@/components/ui/button";
 import useActiveSection from "@/hooks/useActiveSection";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { name: "Home", href: "#home", id: "home" },
-  { name: "About", href: "#about", id: "about" },
-  { name: "ID Card", href: "#idcard", id: "idcard" },
-  { name: "Experience", href: "#experience", id: "experience" },
-  { name: "Projects", href: "#projects", id: "projects" },
-  { name: "GitHub", href: "#github", id: "github" },
-  { name: "Contact", href: "#contact", id: "contact" },
+  { name: "Home", href: "#home", id: "home", key: "nav.home" },
+  { name: "About", href: "#about", id: "about", key: "nav.about" },
+  { name: "ID Card", href: "#idcard", id: "idcard", key: "nav.idcard" },
+  { name: "Certifications", href: "#certifications", id: "certifications", key: "nav.certifications" },
+  { name: "Experience", href: "#experience", id: "experience", key: "nav.experience" },
+  { name: "Projects", href: "#projects", id: "projects", key: "nav.projects" },
+  { name: "GitHub", href: "#github", id: "github", key: "nav.github" },
+  { name: "Contact", href: "#contact", id: "contact", key: "nav.contact" },
 ];
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
+  const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
@@ -61,26 +65,31 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
               className={cn(
-                "px-4 py-2 text-sm font-medium rounded-full transition-all duration-300",
+                "px-3 py-2 text-xs font-medium rounded-full transition-all duration-300",
                 activeSection === link.id
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-primary/10"
               )}
             >
-              {link.name}
+              {t(link.key)}
             </a>
           ))}
         </div>
 
-        {/* Theme Toggle & Mobile Menu */}
-        <div className="flex items-center gap-4">
+        {/* Language Switcher & Theme Toggle & Mobile Menu */}
+        <div className="flex items-center gap-2">
+          {/* Language Switcher */}
+          <div className="hidden sm:block">
+            <LanguageSwitcher />
+          </div>
+
           <Button
             variant="ghost"
             size="icon"
@@ -98,7 +107,7 @@ const Navbar = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden rounded-full"
+            className="lg:hidden rounded-full"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -112,7 +121,12 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden glass mt-2 mx-4 rounded-2xl p-4 animate-fade-up">
+        <div className="lg:hidden glass mt-2 mx-4 rounded-2xl p-4 animate-fade-up">
+          {/* Mobile Language Switcher */}
+          <div className="flex justify-center mb-4 sm:hidden">
+            <LanguageSwitcher />
+          </div>
+          
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -125,7 +139,7 @@ const Navbar = () => {
                   : "text-muted-foreground hover:text-foreground hover:bg-primary/10"
               )}
             >
-              {link.name}
+              {t(link.key)}
             </a>
           ))}
         </div>
