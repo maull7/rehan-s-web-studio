@@ -193,14 +193,28 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        {/* Enhanced Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
           <a
             href="#about"
-            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+            className="group flex flex-col items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
           >
-            <span className="text-xs">Scroll Down</span>
-            <ArrowDown className="h-4 w-4" />
+            <span className="text-xs font-medium tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity">
+              Scroll Down
+            </span>
+            
+            {/* Mouse scroll indicator */}
+            <div className="relative w-6 h-10 border-2 border-current rounded-full flex justify-center group-hover:border-primary transition-colors">
+              {/* Scroll wheel dot */}
+              <div className="w-1.5 h-1.5 bg-current rounded-full mt-2 animate-[scrollWheel_2s_ease-in-out_infinite] group-hover:bg-primary" />
+            </div>
+            
+            {/* Animated arrows */}
+            <div className="flex flex-col items-center -mt-1">
+              <ArrowDown className="h-4 w-4 animate-[bounceArrow_2s_ease-in-out_infinite] opacity-80" />
+              <ArrowDown className="h-4 w-4 -mt-2 animate-[bounceArrow_2s_ease-in-out_infinite_0.2s] opacity-50" />
+              <ArrowDown className="h-4 w-4 -mt-2 animate-[bounceArrow_2s_ease-in-out_infinite_0.4s] opacity-20" />
+            </div>
           </a>
         </div>
       </div>
