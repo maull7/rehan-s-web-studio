@@ -2,6 +2,7 @@ import { ArrowRight, ExternalLink, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
+import SectionParticles from "@/components/SectionParticles";
 
 export const projects = [
   {
@@ -72,8 +73,18 @@ export const projects = [
 
 const Projects = () => {
   return (
-    <section id="projects" className="section-padding bg-card/30">
-      <div className="container-custom">
+    <section id="projects" className="section-padding bg-card/30 relative overflow-hidden">
+      {/* Floating Particles */}
+      <SectionParticles count={25} />
+
+      {/* Background glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-80 h-80 bg-primary/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px]" />
+      </div>
+
+      <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
           <div className="text-center mb-16">

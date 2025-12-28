@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "@/components/ScrollReveal";
+import SectionParticles from "@/components/SectionParticles";
 
 const contactInfo = [
   {
@@ -83,8 +84,17 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="section-padding bg-card/30">
-      <div className="container-custom">
+    <section id="contact" className="section-padding bg-card/30 relative overflow-hidden">
+      {/* Floating Particles */}
+      <SectionParticles count={25} />
+
+      {/* Background glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/15 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
           <div className="text-center mb-16">

@@ -1,5 +1,6 @@
 import { Briefcase, Calendar, MapPin, CheckCircle2 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
+import SectionParticles from "@/components/SectionParticles";
 
 const experiences = [
   {
@@ -24,8 +25,17 @@ const experiences = [
 
 const Experience = () => {
   return (
-    <section id="experience" className="section-padding">
-      <div className="container-custom">
+    <section id="experience" className="section-padding relative overflow-hidden">
+      {/* Floating Particles */}
+      <SectionParticles count={20} />
+
+      {/* Background glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
           <div className="text-center mb-16">
