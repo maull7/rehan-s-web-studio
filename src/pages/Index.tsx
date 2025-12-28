@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingCard from "@/components/FloatingCard";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Experience from "@/components/sections/Experience";
@@ -25,8 +26,9 @@ const Index = () => {
         <link rel="canonical" href="https://rehanmaulana.dev" />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background overflow-x-hidden">
         <Navbar />
+        <FloatingCard />
         <main>
           <Hero />
           <About />
