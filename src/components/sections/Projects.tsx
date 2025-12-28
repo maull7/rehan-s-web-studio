@@ -1,6 +1,7 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const projects = [
   {
@@ -74,106 +75,106 @@ const Projects = () => {
     <section id="projects" className="section-padding bg-card/30">
       <div className="container-custom">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary font-mono text-sm tracking-wider uppercase">
-            Projects
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
-            Featured <span className="gradient-text">Work</span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
-          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-            Here are some of the projects I've worked on. Each project represents
-            a unique challenge and learning experience.
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="text-center mb-16">
+            <span className="text-primary font-mono text-sm tracking-wider uppercase">
+              Projects
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
+              Featured <span className="gradient-text">Work</span>
+            </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+              Here are some of the projects I've worked on. Each project represents
+              a unique challenge and learning experience.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {projects.map((project, index) => (
-            <div
-              key={project.id}
-              className="group glass-card overflow-hidden hover-lift"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Thumbnail */}
-              <div className="relative overflow-hidden aspect-video">
-                <img
-                  src={project.thumbnail}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                {/* Overlay Actions */}
-                <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-background/90 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
-                  >
-                    <Github className="h-5 w-5" />
-                  </a>
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-background/90 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
-                  >
-                    <ExternalLink className="h-5 w-5" />
-                  </a>
-                </div>
-
-                {/* Featured Badge */}
-                {project.featured && (
-                  <div className="absolute top-3 right-3 px-2 py-1 bg-primary/90 text-primary-foreground text-xs font-medium rounded-full">
-                    Featured
-                  </div>
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                  {project.shortDescription}
-                </p>
-
-                {/* Tech Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.slice(0, 3).map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-1 text-xs bg-secondary text-secondary-foreground rounded-md"
+            <ScrollReveal key={project.id} animation="zoom" delay={index * 100}>
+              <div className="group glass-card overflow-hidden hover-lift h-full">
+                {/* Thumbnail */}
+                <div className="relative overflow-hidden aspect-video">
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  {/* Overlay Actions */}
+                  <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-background/90 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
                     >
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span className="px-2 py-1 text-xs bg-secondary text-secondary-foreground rounded-md">
-                      +{project.technologies.length - 3}
-                    </span>
+                      <Github className="h-5 w-5" />
+                    </a>
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-background/90 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                    >
+                      <ExternalLink className="h-5 w-5" />
+                    </a>
+                  </div>
+
+                  {/* Featured Badge */}
+                  {project.featured && (
+                    <div className="absolute top-3 right-3 px-2 py-1 bg-primary/90 text-primary-foreground text-xs font-medium rounded-full">
+                      Featured
+                    </div>
                   )}
                 </div>
 
-                {/* View Details Button */}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full group/btn hover:bg-primary hover:text-primary-foreground"
-                  asChild
-                >
-                  <Link to={`/project/${project.id}`}>
-                    View Details
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                    {project.shortDescription}
+                  </p>
+
+                  {/* Tech Tags */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.slice(0, 3).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 text-xs bg-secondary text-secondary-foreground rounded-md"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <span className="px-2 py-1 text-xs bg-secondary text-secondary-foreground rounded-md">
+                        +{project.technologies.length - 3}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* View Details Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full group/btn hover:bg-primary hover:text-primary-foreground"
+                    asChild
+                  >
+                    <Link to={`/project/${project.id}`}>
+                      View Details
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
