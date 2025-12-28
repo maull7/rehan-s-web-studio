@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Code2, Palette, Globe, Layers } from "lucide-react";
+import { Code2, Globe, Layers, GripVertical } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { cn } from "@/lib/utils";
 
@@ -11,64 +11,121 @@ const techIcons = [
 ];
 
 const IdCard3D = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [autoRotate, setAutoRotate] = useState({ x: 0, y: 0 });
+  const [velocity, setVelocity] = useState({ x: 0, y: 0 });
+  const [swingAngle, setSwingAngle] = useState(0);
+  const lastMousePos = useRef({ x: 0, y: 0 });
+  const animationRef = useRef<number>();
 
-  // Auto-rotate animation
+  // Physics-based swing animation
   useEffect(() => {
-    if (isHovering) return;
+    if (isDragging) return;
 
-    let animationId: number;
-    let angle = 0;
+    const friction = 0.98;
+    const spring = 0.02;
 
     const animate = () => {
-      angle += 0.5;
-      setAutoRotate({
-        x: Math.sin(angle * 0.02) * 10,
-        y: Math.cos(angle * 0.01) * 15,
+      setRotation((prev) => {
+        const newVelX = (velocity.x - prev.x * spring) * friction;
+        const newVelY = (velocity.y - prev.y * spring) * friction;
+
+        setVelocity({ x: newVelX, y: newVelY });
+
+        return {
+          x: prev.x + newVelX,
+          y: prev.y + newVelY,
+        };
       });
-      animationId = requestAnimationFrame(animate);
+
+      // Gentle idle swing
+      setSwingAngle((prev) => prev + 0.02);
+
+      animationRef.current = requestAnimationFrame(animate);
     };
 
-    animationId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationId);
-  }, [isHovering]);
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [isDragging, velocity]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-
-    const rect = cardRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    const rotateX = ((e.clientY - centerY) / (rect.height / 2)) * -15;
-    const rotateY = ((e.clientX - centerX) / (rect.width / 2)) * 15;
-
-    setRotation({ x: rotateX, y: rotateY });
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
   };
 
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    setRotation({ x: 0, y: 0 });
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+
+    const deltaX = e.clientX - lastMousePos.current.x;
+    const deltaY = e.clientY - lastMousePos.current.y;
+
+    setRotation((prev) => ({
+      x: Math.max(-30, Math.min(30, prev.x + deltaY * 0.5)),
+      y: Math.max(-45, Math.min(45, prev.y + deltaX * 0.5)),
+    }));
+
+    setVelocity({
+      x: deltaY * 0.3,
+      y: deltaX * 0.3,
+    });
+
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
   };
 
-  const currentRotation = isHovering ? rotation : autoRotate;
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    const touch = e.touches[0];
+    lastMousePos.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+
+    const touch = e.touches[0];
+    const deltaX = touch.clientX - lastMousePos.current.x;
+    const deltaY = touch.clientY - lastMousePos.current.y;
+
+    setRotation((prev) => ({
+      x: Math.max(-30, Math.min(30, prev.x + deltaY * 0.5)),
+      y: Math.max(-45, Math.min(45, prev.y + deltaX * 0.5)),
+    }));
+
+    setVelocity({
+      x: deltaY * 0.3,
+      y: deltaX * 0.3,
+    });
+
+    lastMousePos.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
+  // Calculate idle swing when not dragging
+  const idleSwing = isDragging ? 0 : Math.sin(swingAngle) * 3;
 
   return (
     <section id="idcard" className="section-padding relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px]" />
-        <div className="absolute top-1/3 left-1/4 w-64 h-64 bg-purple-500/15 rounded-full blur-[80px] animate-float" />
-        <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-cyan-500/15 rounded-full blur-[80px] animate-float" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[120px]" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-cyan-500/10 rounded-full blur-[80px]" />
       </div>
 
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <span className="text-primary font-mono text-sm tracking-wider uppercase">
               Identity
             </span>
@@ -77,211 +134,286 @@ const IdCard3D = () => {
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
             <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
-              Interactive 3D card showcasing my identity as a developer
+              Drag the card to swing it around!
             </p>
           </div>
         </ScrollReveal>
 
-        {/* 3D Card Container */}
-        <div className="flex justify-center items-center min-h-[400px]" style={{ perspective: "1000px" }}>
+        {/* Hanging Card Container */}
+        <div
+          ref={containerRef}
+          className="relative flex flex-col items-center justify-start min-h-[600px] cursor-grab active:cursor-grabbing select-none"
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{ perspective: "1200px" }}
+        >
+          {/* Lanyard/String Holder */}
+          <div className="relative">
+            {/* Top Hook */}
+            <div className="relative z-20 flex flex-col items-center">
+              {/* Hook Base */}
+              <div className="w-16 h-8 bg-gradient-to-b from-zinc-400 to-zinc-600 dark:from-zinc-500 dark:to-zinc-700 rounded-t-full shadow-lg" />
+              
+              {/* Hook Ring */}
+              <div className="w-10 h-10 border-4 border-zinc-500 dark:border-zinc-600 rounded-full -mt-2 bg-transparent" />
+            </div>
+
+            {/* Lanyard String */}
+            <svg
+              className="absolute top-14 left-1/2 -translate-x-1/2 z-10"
+              width="120"
+              height="80"
+              viewBox="0 0 120 80"
+              style={{
+                transform: `translateX(-50%) rotateY(${rotation.y * 0.3 + idleSwing}deg)`,
+              }}
+            >
+              <defs>
+                <linearGradient id="lanyardGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="hsl(var(--primary))" />
+                  <stop offset="100%" stopColor="hsl(262, 83%, 58%)" />
+                </linearGradient>
+              </defs>
+              {/* Left string */}
+              <path
+                d={`M 35 0 Q ${30 + rotation.y * 0.2} 40, 45 75`}
+                stroke="url(#lanyardGradient)"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="round"
+              />
+              {/* Right string */}
+              <path
+                d={`M 85 0 Q ${90 + rotation.y * 0.2} 40, 75 75`}
+                stroke="url(#lanyardGradient)"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="round"
+              />
+            </svg>
+
+            {/* Card Clip */}
+            <div
+              className="absolute top-[85px] left-1/2 -translate-x-1/2 z-30 w-20 h-6 bg-gradient-to-b from-zinc-300 to-zinc-400 dark:from-zinc-600 dark:to-zinc-700 rounded-sm shadow-md"
+              style={{
+                transform: `translateX(-50%) rotateY(${rotation.y + idleSwing}deg) rotateX(${rotation.x}deg)`,
+                transformOrigin: "center top",
+              }}
+            />
+          </div>
+
+          {/* 3D Card */}
           <div
             ref={cardRef}
             className={cn(
-              "relative cursor-pointer transition-all duration-300 ease-out",
-              "animate-float"
+              "relative mt-[60px] transition-shadow duration-300",
+              isDragging ? "shadow-2xl" : "shadow-xl"
             )}
             style={{
               transformStyle: "preserve-3d",
-              transform: `rotateX(${currentRotation.x}deg) rotateY(${currentRotation.y}deg)`,
+              transform: `rotateY(${rotation.y + idleSwing}deg) rotateX(${rotation.x}deg)`,
+              transformOrigin: "center top",
             }}
-            onMouseMove={handleMouseMove}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={handleMouseLeave}
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleTouchStart}
           >
-            {/* Card Glow Effect */}
+            {/* Card Glow */}
             <div
               className={cn(
-                "absolute -inset-1 rounded-3xl opacity-50 blur-xl transition-opacity duration-500",
-                "bg-gradient-to-r from-primary via-purple-500 to-cyan-500",
-                isHovering ? "opacity-80" : "opacity-40"
+                "absolute -inset-2 rounded-3xl blur-xl transition-opacity duration-300",
+                "bg-gradient-to-br from-primary/50 via-purple-500/50 to-cyan-500/50",
+                isDragging ? "opacity-60" : "opacity-30"
               )}
-              style={{ transform: "translateZ(-10px)" }}
+              style={{ transform: "translateZ(-20px)" }}
             />
 
             {/* Main Card */}
             <div
               className={cn(
-                "relative w-[320px] md:w-[380px] h-[480px] md:h-[520px] rounded-3xl",
-                "bg-gradient-to-br from-card/90 via-card/80 to-card/70",
-                "backdrop-blur-xl border border-white/20 dark:border-white/10",
-                "shadow-2xl transition-all duration-300",
-                isHovering && "shadow-[0_30px_60px_-15px_rgba(14,165,233,0.4)]"
+                "relative w-[300px] md:w-[340px] h-[440px] md:h-[480px] rounded-2xl",
+                "bg-gradient-to-br from-card via-card to-card/90",
+                "backdrop-blur-xl border-2 border-white/20 dark:border-white/10",
+                "overflow-hidden"
               )}
-              style={{ 
+              style={{
                 transformStyle: "preserve-3d",
-                transform: "translateZ(30px)" 
+                boxShadow: isDragging
+                  ? "0 50px 100px -20px rgba(0,0,0,0.4), 0 30px 60px -30px rgba(14,165,233,0.3)"
+                  : "0 25px 50px -12px rgba(0,0,0,0.25)",
               }}
             >
-              {/* Card Inner Glow */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/10 via-transparent to-purple-500/10" />
+              {/* Card Background Pattern */}
+              <div className="absolute inset-0 opacity-5">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)),transparent_70%)]" />
+              </div>
 
-              {/* Holographic Strip */}
+              {/* Top Gradient Bar */}
+              <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-br from-primary via-primary/90 to-purple-600" />
+
+              {/* Drag Handle Indicator */}
               <div 
-                className="absolute top-8 left-0 right-0 h-12 bg-gradient-to-r from-transparent via-primary/30 to-transparent"
-                style={{ transform: "translateZ(5px)" }}
-              />
+                className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center gap-1 text-white/60"
+                style={{ transform: "translateZ(10px)" }}
+              >
+                <GripVertical className="h-4 w-4" />
+                <span className="text-[10px] font-medium">DRAG TO SWING</span>
+                <GripVertical className="h-4 w-4" />
+              </div>
 
               {/* Card Content */}
               <div 
-                className="relative h-full flex flex-col items-center justify-center p-8"
+                className="relative h-full flex flex-col items-center pt-12 px-6 pb-6"
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {/* Profile Photo */}
                 <div
-                  className="relative mb-6"
-                  style={{ transform: "translateZ(50px)" }}
+                  className="relative mb-4"
+                  style={{ transform: "translateZ(40px)" }}
                 >
-                  <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary to-purple-500 opacity-70 blur-md animate-pulse" />
-                  <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white/30 shadow-xl">
+                  <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary to-purple-500 opacity-80 blur-sm" />
+                  <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-xl">
                     <img
                       src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
                       alt="Rehan Maulana"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  {/* Status Badge */}
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-3 py-1 bg-green-500 rounded-full flex items-center gap-1 shadow-lg">
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                    <span className="text-[10px] text-white font-bold">ACTIVE</span>
+                  {/* Online Status */}
+                  <div className="absolute bottom-1 right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+                    <span className="w-2 h-2 bg-white rounded-full animate-ping" />
                   </div>
                 </div>
 
                 {/* Name */}
                 <h3
-                  className="text-2xl md:text-3xl font-bold text-foreground mb-1 text-center"
-                  style={{ transform: "translateZ(40px)" }}
+                  className="text-xl md:text-2xl font-bold text-foreground mb-1 text-center"
+                  style={{ transform: "translateZ(30px)" }}
                 >
                   Rehan Maulana
                 </h3>
 
-                {/* Role */}
+                {/* Role Badge */}
                 <div
-                  className="flex items-center gap-2 mb-3"
-                  style={{ transform: "translateZ(35px)" }}
+                  className="flex items-center gap-2 px-4 py-1.5 bg-primary/10 rounded-full mb-3"
+                  style={{ transform: "translateZ(25px)" }}
                 >
                   <Code2 className="h-4 w-4 text-primary" />
-                  <span className="text-primary font-semibold">Web Developer</span>
+                  <span className="text-sm font-semibold text-primary">Web Developer</span>
                 </div>
 
-                {/* ID Number */}
+                {/* ID */}
                 <div
-                  className="px-4 py-1.5 bg-muted/50 rounded-full mb-6"
-                  style={{ transform: "translateZ(30px)" }}
+                  className="font-mono text-xs text-muted-foreground mb-4"
+                  style={{ transform: "translateZ(20px)" }}
                 >
-                  <span className="text-xs font-mono text-muted-foreground">
-                    ID: DEV-2024-0127
-                  </span>
+                  ID: DEV-2024-RM001
                 </div>
 
                 {/* Divider */}
                 <div 
-                  className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-6"
-                  style={{ transform: "translateZ(25px)" }}
+                  className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-4"
+                  style={{ transform: "translateZ(15px)" }}
                 />
 
-                {/* Tech Stack Icons */}
+                {/* Tech Stack */}
                 <div
-                  className="flex items-center gap-3 mb-6"
-                  style={{ transform: "translateZ(45px)" }}
+                  className="flex items-center gap-2 mb-4"
+                  style={{ transform: "translateZ(35px)" }}
                 >
-                  {techIcons.map((tech, index) => (
+                  {techIcons.map((tech) => (
                     <div
                       key={tech.name}
-                      className={cn(
-                        "w-12 h-12 rounded-xl flex items-center justify-center",
-                        "bg-white/10 dark:bg-white/5 backdrop-blur-sm",
-                        "border border-white/20 shadow-lg",
-                        "transition-all duration-300 hover:scale-110 hover:-translate-y-1",
-                        "group cursor-pointer"
-                      )}
-                      style={{ 
-                        animationDelay: `${index * 0.1}s`,
-                      }}
+                      className="w-10 h-10 rounded-lg bg-white/10 dark:bg-black/20 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
                       title={tech.name}
                     >
-                      <span 
-                        className="text-sm font-bold group-hover:scale-110 transition-transform"
-                        style={{ color: tech.color }}
-                      >
+                      <span className="text-xs font-bold" style={{ color: tech.color }}>
                         {tech.name}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                {/* Stats */}
+                {/* Stats Row */}
                 <div
-                  className="flex items-center gap-6 text-center"
-                  style={{ transform: "translateZ(35px)" }}
+                  className="flex items-center justify-center gap-4 text-center mb-4"
+                  style={{ transform: "translateZ(25px)" }}
                 >
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">3+</p>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Years</p>
+                  <div className="px-3">
+                    <p className="text-lg font-bold text-foreground">3+</p>
+                    <p className="text-[9px] text-muted-foreground uppercase">Years</p>
                   </div>
-                  <div className="w-px h-10 bg-border" />
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">20+</p>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Projects</p>
+                  <div className="w-px h-8 bg-border" />
+                  <div className="px-3">
+                    <p className="text-lg font-bold text-foreground">20+</p>
+                    <p className="text-[9px] text-muted-foreground uppercase">Projects</p>
                   </div>
-                  <div className="w-px h-10 bg-border" />
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">100%</p>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Passion</p>
+                  <div className="w-px h-8 bg-border" />
+                  <div className="px-3">
+                    <p className="text-lg font-bold text-foreground">100%</p>
+                    <p className="text-[9px] text-muted-foreground uppercase">Passion</p>
                   </div>
                 </div>
 
-                {/* Bottom Decoration */}
+                {/* Bottom Info */}
                 <div 
-                  className="absolute bottom-6 left-8 right-8 flex items-center justify-between"
-                  style={{ transform: "translateZ(20px)" }}
+                  className="mt-auto flex items-center justify-between w-full text-[10px] text-muted-foreground"
+                  style={{ transform: "translateZ(15px)" }}
                 >
-                  <div className="flex items-center gap-2">
-                    <Globe className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-[10px] text-muted-foreground">Indonesia</span>
+                  <div className="flex items-center gap-1">
+                    <Globe className="h-3 w-3" />
+                    <span>Indonesia</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Layers className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-[10px] text-muted-foreground">Full Stack</span>
+                  <div className="flex items-center gap-1">
+                    <Layers className="h-3 w-3" />
+                    <span>Full Stack</span>
                   </div>
                 </div>
 
-                {/* Corner Decorations */}
-                <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-primary/30 rounded-tl-lg" />
-                <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-primary/30 rounded-tr-lg" />
-                <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-primary/30 rounded-bl-lg" />
-                <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-primary/30 rounded-br-lg" />
+                {/* QR Code Placeholder */}
+                <div 
+                  className="absolute bottom-4 right-4 w-12 h-12 bg-white rounded-lg p-1 shadow-lg"
+                  style={{ transform: "translateZ(30px)" }}
+                >
+                  <div className="w-full h-full bg-[repeating-conic-gradient(#000_0%_25%,#fff_0%_50%)] bg-[length:25%_25%] rounded" />
+                </div>
               </div>
+
+              {/* Shine Effect */}
+              <div
+                className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{
+                  transform: `translateX(${rotation.y * 2}px)`,
+                }}
+              />
             </div>
 
-            {/* Card Reflection */}
+            {/* Card Back Shadow */}
             <div
-              className="absolute top-full left-4 right-4 h-20 rounded-b-3xl opacity-20 blur-sm"
-              style={{
-                background: "linear-gradient(to bottom, hsl(var(--primary) / 0.3), transparent)",
-                transform: "rotateX(180deg) translateZ(-10px)",
-              }}
+              className="absolute inset-0 rounded-2xl bg-black/20"
+              style={{ transform: "translateZ(-5px)" }}
             />
           </div>
         </div>
 
-        {/* Interaction Hint */}
-        <ScrollReveal delay={300}>
-          <p className="text-center text-sm text-muted-foreground mt-8">
-            <span className="inline-flex items-center gap-2">
-              <Palette className="h-4 w-4" />
-              Move your mouse over the card to interact
-            </span>
-          </p>
+        {/* Instructions */}
+        <ScrollReveal delay={200}>
+          <div className="flex justify-center gap-6 mt-8">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                👆
+              </span>
+              <span>Click & drag to swing</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                ✨
+              </span>
+              <span>Release to see physics</span>
+            </div>
+          </div>
         </ScrollReveal>
       </div>
     </section>
