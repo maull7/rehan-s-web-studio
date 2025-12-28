@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Code2, Globe, Layers, GripVertical } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,29 @@ const techIcons = [
   { name: "React", color: "#61DAFB" },
 ];
 
+// Floating Particle Component
+const FloatingParticle = ({ delay, duration, size, initialX, initialY }: {
+  delay: number;
+  duration: number;
+  size: number;
+  initialX: number;
+  initialY: number;
+}) => {
+  return (
+    <div
+      className="absolute rounded-full bg-gradient-to-br from-primary/60 to-purple-500/60 blur-[1px]"
+      style={{
+        width: size,
+        height: size,
+        left: `${initialX}%`,
+        top: `${initialY}%`,
+        animation: `floatParticle ${duration}s ease-in-out infinite`,
+        animationDelay: `${delay}s`,
+      }}
+    />
+  );
+};
+
 const IdCard3D = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -19,6 +42,18 @@ const IdCard3D = () => {
   const [swingAngle, setSwingAngle] = useState(0);
   const lastMousePos = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number>();
+
+  // Generate particles once
+  const particles = useMemo(() => {
+    return Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      delay: Math.random() * 5,
+      duration: 4 + Math.random() * 4,
+      size: 4 + Math.random() * 8,
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+    }));
+  }, []);
 
   // Physics-based swing animation
   useEffect(() => {
@@ -122,6 +157,20 @@ const IdCard3D = () => {
         <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-cyan-500/10 rounded-full blur-[80px]" />
       </div>
 
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {particles.map((particle) => (
+          <FloatingParticle
+            key={particle.id}
+            delay={particle.delay}
+            duration={particle.duration}
+            size={particle.size}
+            initialX={particle.initialX}
+            initialY={particle.initialY}
+          />
+        ))}
+      </div>
+
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
@@ -142,7 +191,7 @@ const IdCard3D = () => {
         {/* Hanging Card Container */}
         <div
           ref={containerRef}
-          className="relative flex flex-col items-center justify-start min-h-[600px] cursor-grab active:cursor-grabbing select-none"
+          className="relative flex flex-col items-center justify-start min-h-[750px] cursor-grab active:cursor-grabbing select-none"
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
@@ -161,12 +210,12 @@ const IdCard3D = () => {
               <div className="w-10 h-10 border-4 border-zinc-500 dark:border-zinc-600 rounded-full -mt-2 bg-transparent" />
             </div>
 
-            {/* Lanyard String */}
+            {/* Lanyard String - LONGER */}
             <svg
               className="absolute top-14 left-1/2 -translate-x-1/2 z-10"
-              width="120"
-              height="80"
-              viewBox="0 0 120 80"
+              width="160"
+              height="160"
+              viewBox="0 0 160 160"
               style={{
                 transform: `translateX(-50%) rotateY(${rotation.y * 0.3 + idleSwing}deg)`,
               }}
@@ -174,42 +223,46 @@ const IdCard3D = () => {
               <defs>
                 <linearGradient id="lanyardGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="hsl(var(--primary))" />
-                  <stop offset="100%" stopColor="hsl(262, 83%, 58%)" />
+                  <stop offset="50%" stopColor="hsl(262, 83%, 58%)" />
+                  <stop offset="100%" stopColor="hsl(var(--primary))" />
                 </linearGradient>
               </defs>
-              {/* Left string */}
+              {/* Left string - longer curve */}
               <path
-                d={`M 35 0 Q ${30 + rotation.y * 0.2} 40, 45 75`}
+                d={`M 50 0 Q ${35 + rotation.y * 0.3} 80, 65 155`}
                 stroke="url(#lanyardGradient)"
-                strokeWidth="4"
+                strokeWidth="5"
                 fill="none"
                 strokeLinecap="round"
               />
-              {/* Right string */}
+              {/* Right string - longer curve */}
               <path
-                d={`M 85 0 Q ${90 + rotation.y * 0.2} 40, 75 75`}
+                d={`M 110 0 Q ${125 + rotation.y * 0.3} 80, 95 155`}
                 stroke="url(#lanyardGradient)"
-                strokeWidth="4"
+                strokeWidth="5"
                 fill="none"
                 strokeLinecap="round"
               />
             </svg>
 
-            {/* Card Clip */}
+            {/* Card Clip - positioned lower */}
             <div
-              className="absolute top-[85px] left-1/2 -translate-x-1/2 z-30 w-20 h-6 bg-gradient-to-b from-zinc-300 to-zinc-400 dark:from-zinc-600 dark:to-zinc-700 rounded-sm shadow-md"
+              className="absolute top-[165px] left-1/2 -translate-x-1/2 z-30 w-24 h-8 bg-gradient-to-b from-zinc-300 to-zinc-400 dark:from-zinc-600 dark:to-zinc-700 rounded-md shadow-md flex items-center justify-center"
               style={{
                 transform: `translateX(-50%) rotateY(${rotation.y + idleSwing}deg) rotateX(${rotation.x}deg)`,
                 transformOrigin: "center top",
               }}
-            />
+            >
+              {/* Clip details */}
+              <div className="w-16 h-1 bg-zinc-500/50 rounded-full" />
+            </div>
           </div>
 
           {/* 3D Card */}
           <div
             ref={cardRef}
             className={cn(
-              "relative mt-[60px] transition-shadow duration-300",
+              "relative mt-[140px] transition-shadow duration-300",
               isDragging ? "shadow-2xl" : "shadow-xl"
             )}
             style={{
