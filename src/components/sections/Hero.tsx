@@ -1,6 +1,7 @@
-import { ArrowDown, ExternalLink, Download } from "lucide-react";
+import { ArrowDown, ExternalLink, Code2, Zap, Rocket, Laptop, Braces } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useTypingAnimation from "@/hooks/useTypingAnimation";
+import { useState, useEffect } from "react";
 
 const taglines = [
   "Building modern, scalable web experiences",
@@ -10,6 +11,50 @@ const taglines = [
 ];
 
 const Hero = () => {
+  const [showName, setShowName] = useState(false);
+  const [showRole, setShowRole] = useState(false);
+  const [nameComplete, setNameComplete] = useState(false);
+  const [roleComplete, setRoleComplete] = useState(false);
+  const [nameText, setNameText] = useState("");
+  const [roleText, setRoleText] = useState("");
+
+  const fullName = "Rehan Maulana";
+  const fullRole = "Web Developer";
+
+  // Name typing animation
+  useEffect(() => {
+    const startDelay = setTimeout(() => setShowName(true), 500);
+    return () => clearTimeout(startDelay);
+  }, []);
+
+  useEffect(() => {
+    if (!showName) return;
+    
+    if (nameText.length < fullName.length) {
+      const timeout = setTimeout(() => {
+        setNameText(fullName.slice(0, nameText.length + 1));
+      }, 100);
+      return () => clearTimeout(timeout);
+    } else {
+      setNameComplete(true);
+      setTimeout(() => setShowRole(true), 300);
+    }
+  }, [showName, nameText]);
+
+  // Role typing animation
+  useEffect(() => {
+    if (!showRole) return;
+    
+    if (roleText.length < fullRole.length) {
+      const timeout = setTimeout(() => {
+        setRoleText(fullRole.slice(0, roleText.length + 1));
+      }, 80);
+      return () => clearTimeout(timeout);
+    } else {
+      setRoleComplete(true);
+    }
+  }, [showRole, roleText]);
+
   const { displayText, isComplete } = useTypingAnimation({
     texts: taglines,
     typingSpeed: 80,
@@ -42,22 +87,30 @@ const Hero = () => {
               <span className="text-sm text-muted-foreground">Available for work</span>
             </div>
 
-            {/* Name */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 animate-fade-up delay-100">
-              <span className="gradient-text">Rehan Maulana</span>
+            {/* Name with Typing */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 min-h-[1.2em]">
+              <span className="gradient-text">
+                {nameText}
+                {!nameComplete && (
+                  <span className="inline-block w-1 h-12 md:h-14 lg:h-16 ml-1 bg-primary animate-[blink_0.7s_infinite] align-middle" />
+                )}
+              </span>
             </h1>
 
-            {/* Role */}
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground mb-6 animate-fade-up delay-200">
-              Web Developer
+            {/* Role with Typing */}
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground mb-6 min-h-[1.3em]">
+              {roleText}
+              {showRole && !roleComplete && (
+                <span className="inline-block w-0.5 h-7 md:h-8 lg:h-9 ml-1 bg-foreground animate-[blink_0.7s_infinite] align-middle" />
+              )}
             </h2>
 
             {/* Typing Tagline */}
-            <div className="h-16 md:h-12 mb-8 animate-fade-up delay-300">
+            <div className="h-16 md:h-12 mb-8">
               <p className="text-lg md:text-xl text-muted-foreground">
                 {displayText}
                 <span
-                  className={`inline-block w-0.5 h-6 ml-1 bg-primary ${
+                  className={`inline-block w-0.5 h-6 ml-1 bg-primary align-middle ${
                     isComplete ? "animate-pulse" : "animate-[blink_0.7s_infinite]"
                   }`}
                 />
@@ -104,15 +157,21 @@ const Hero = () => {
                 </div>
               </div>
 
-              {/* Floating Elements */}
-              <div className="absolute -top-4 -right-4 w-20 h-20 glass-card rounded-2xl flex items-center justify-center animate-float">
-                <span className="text-3xl">💻</span>
+              {/* Floating Icon Elements */}
+              <div className="absolute -top-4 -right-4 w-16 h-16 glass-card rounded-2xl flex items-center justify-center animate-float hover-glow">
+                <Laptop className="h-8 w-8 text-primary" />
               </div>
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 glass-card rounded-2xl flex items-center justify-center animate-float" style={{ animationDelay: "1s" }}>
-                <span className="text-2xl">⚡</span>
+              <div className="absolute -bottom-4 -left-4 w-14 h-14 glass-card rounded-2xl flex items-center justify-center animate-float hover-glow" style={{ animationDelay: "1s" }}>
+                <Zap className="h-7 w-7 text-yellow-500" />
               </div>
-              <div className="absolute top-1/2 -right-8 w-14 h-14 glass-card rounded-2xl flex items-center justify-center animate-float" style={{ animationDelay: "2s" }}>
-                <span className="text-xl">🚀</span>
+              <div className="absolute top-1/2 -right-8 w-12 h-12 glass-card rounded-2xl flex items-center justify-center animate-float hover-glow" style={{ animationDelay: "2s" }}>
+                <Rocket className="h-6 w-6 text-purple-500" />
+              </div>
+              <div className="absolute top-8 -left-6 w-12 h-12 glass-card rounded-2xl flex items-center justify-center animate-float hover-glow" style={{ animationDelay: "1.5s" }}>
+                <Braces className="h-6 w-6 text-green-500" />
+              </div>
+              <div className="absolute -bottom-2 right-8 w-10 h-10 glass-card rounded-xl flex items-center justify-center animate-float hover-glow" style={{ animationDelay: "2.5s" }}>
+                <Code2 className="h-5 w-5 text-primary" />
               </div>
             </div>
           </div>
