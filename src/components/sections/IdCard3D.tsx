@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { Code2, Globe, Layers, GripVertical } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,16 @@ const techIcons = [
   { name: "JS", color: "#F7DF1E" },
   { name: "React", color: "#61DAFB" },
 ];
+
+// Sparkle Trail Type
+interface Sparkle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  hue: number;
+}
 
 // Floating Particle Component
 const FloatingParticle = ({ delay, duration, size, initialX, initialY }: {
@@ -33,6 +43,70 @@ const FloatingParticle = ({ delay, duration, size, initialX, initialY }: {
   );
 };
 
+// Sparkle Component
+const SparkleTrail = ({ sparkle }: { sparkle: Sparkle }) => {
+  return (
+    <div
+      className="fixed pointer-events-none z-50"
+      style={{
+        left: sparkle.x,
+        top: sparkle.y,
+        transform: "translate(-50%, -50%)",
+      }}
+    >
+      {/* Main glow */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          width: sparkle.size,
+          height: sparkle.size,
+          background: `radial-gradient(circle, hsl(${sparkle.hue}, 80%, 60%) 0%, transparent 70%)`,
+          opacity: sparkle.opacity,
+          filter: "blur(1px)",
+          transform: "translate(-50%, -50%)",
+        }}
+      />
+      {/* Inner bright core */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          width: sparkle.size * 0.4,
+          height: sparkle.size * 0.4,
+          background: `radial-gradient(circle, white 0%, hsl(${sparkle.hue}, 90%, 80%) 50%, transparent 100%)`,
+          opacity: sparkle.opacity,
+          transform: "translate(-50%, -50%)",
+        }}
+      />
+      {/* Star rays */}
+      <svg
+        className="absolute"
+        style={{
+          width: sparkle.size * 1.5,
+          height: sparkle.size * 1.5,
+          opacity: sparkle.opacity * 0.8,
+          transform: "translate(-50%, -50%)",
+        }}
+        viewBox="0 0 100 100"
+      >
+        <defs>
+          <linearGradient id={`sparkleGrad-${sparkle.id}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="50%" stopColor={`hsl(${sparkle.hue}, 80%, 70%)`} />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+        {/* Horizontal ray */}
+        <line x1="10" y1="50" x2="90" y2="50" stroke={`url(#sparkleGrad-${sparkle.id})`} strokeWidth="2" />
+        {/* Vertical ray */}
+        <line x1="50" y1="10" x2="50" y2="90" stroke={`url(#sparkleGrad-${sparkle.id})`} strokeWidth="2" />
+        {/* Diagonal rays */}
+        <line x1="20" y1="20" x2="80" y2="80" stroke={`url(#sparkleGrad-${sparkle.id})`} strokeWidth="1" opacity="0.6" />
+        <line x1="80" y1="20" x2="20" y2="80" stroke={`url(#sparkleGrad-${sparkle.id})`} strokeWidth="1" opacity="0.6" />
+      </svg>
+    </div>
+  );
+};
+
 const IdCard3D = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -40,10 +114,12 @@ const IdCard3D = () => {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const [swingAngle, setSwingAngle] = useState(0);
+  const [sparkles, setSparkles] = useState<Sparkle[]>([]);
   const lastMousePos = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number>();
+  const sparkleIdRef = useRef(0);
 
-  // Generate particles once
+  // Generate background particles once
   const particles = useMemo(() => {
     return Array.from({ length: 30 }, (_, i) => ({
       id: i,
@@ -54,6 +130,34 @@ const IdCard3D = () => {
       initialY: Math.random() * 100,
     }));
   }, []);
+
+  // Create sparkle at position
+  const createSparkle = useCallback((x: number, y: number) => {
+    const newSparkle: Sparkle = {
+      id: sparkleIdRef.current++,
+      x: x + (Math.random() - 0.5) * 30,
+      y: y + (Math.random() - 0.5) * 30,
+      size: 15 + Math.random() * 25,
+      opacity: 0.8 + Math.random() * 0.2,
+      hue: 190 + Math.random() * 80, // Cyan to purple range
+    };
+    setSparkles((prev) => [...prev.slice(-15), newSparkle]); // Keep max 16 sparkles
+  }, []);
+
+  // Fade out sparkles
+  useEffect(() => {
+    if (sparkles.length === 0) return;
+
+    const fadeInterval = setInterval(() => {
+      setSparkles((prev) =>
+        prev
+          .map((s) => ({ ...s, opacity: s.opacity - 0.08, size: s.size * 0.95 }))
+          .filter((s) => s.opacity > 0)
+      );
+    }, 50);
+
+    return () => clearInterval(fadeInterval);
+  }, [sparkles.length]);
 
   // Physics-based swing animation
   useEffect(() => {
@@ -108,6 +212,11 @@ const IdCard3D = () => {
       y: deltaX * 0.3,
     });
 
+    // Create sparkle trail
+    if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+      createSparkle(e.clientX, e.clientY);
+    }
+
     lastMousePos.current = { x: e.clientX, y: e.clientY };
   };
 
@@ -138,6 +247,11 @@ const IdCard3D = () => {
       y: deltaX * 0.3,
     });
 
+    // Create sparkle trail for touch
+    if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+      createSparkle(touch.clientX, touch.clientY);
+    }
+
     lastMousePos.current = { x: touch.clientX, y: touch.clientY };
   };
 
@@ -150,6 +264,11 @@ const IdCard3D = () => {
 
   return (
     <section id="idcard" className="section-padding relative overflow-hidden">
+      {/* Sparkle Trails */}
+      {sparkles.map((sparkle) => (
+        <SparkleTrail key={sparkle.id} sparkle={sparkle} />
+      ))}
+
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[120px]" />
