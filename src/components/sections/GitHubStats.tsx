@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { Github, GitFork, Star, BookOpen, Activity } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
+import { Github, GitFork, Star, BookOpen, Activity, Flame, Calendar, TrendingUp } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionParticles from "@/components/SectionParticles";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface GitHubUser {
   public_repos: number;
@@ -15,6 +16,7 @@ interface GitHubUser {
 interface GitHubRepo {
   stargazers_count: number;
   forks_count: number;
+  language: string | null;
 }
 
 interface Stats {
@@ -25,9 +27,59 @@ interface Stats {
   contributions: number;
 }
 
+interface LanguageData {
+  name: string;
+  percentage: number;
+  color: string;
+}
+
 const GITHUB_USERNAME = "maull7";
 
+// Language colors mapping
+const languageColors: Record<string, string> = {
+  JavaScript: "#f1e05a",
+  TypeScript: "#3178c6",
+  Python: "#3572A5",
+  HTML: "#e34c26",
+  CSS: "#563d7c",
+  Java: "#b07219",
+  "C++": "#f34b7d",
+  Go: "#00ADD8",
+  Rust: "#dea584",
+  PHP: "#4F5D95",
+  Ruby: "#701516",
+  Swift: "#ffac45",
+  Kotlin: "#A97BFF",
+  Vue: "#41b883",
+  null: "#8b8b8b",
+};
+
+// Generate 365 days of contribution data (simulated)
+const generateContributionData = () => {
+  const data: { date: Date; count: number; level: number }[] = [];
+  const today = new Date();
+  
+  for (let i = 364; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    
+    // Simulate contribution pattern (more on weekdays, random variation)
+    const dayOfWeek = date.getDay();
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    const baseChance = isWeekend ? 0.3 : 0.7;
+    const hasContribution = Math.random() < baseChance;
+    
+    const count = hasContribution ? Math.floor(Math.random() * 12) + 1 : 0;
+    const level = count === 0 ? 0 : count <= 3 ? 1 : count <= 6 ? 2 : count <= 9 ? 3 : 4;
+    
+    data.push({ date, count, level });
+  }
+  
+  return data;
+};
+
 const GitHubStats = () => {
+  const { t } = useLanguage();
   const [stats, setStats] = useState<Stats>({
     repos: 0,
     stars: 0,
@@ -43,6 +95,37 @@ const GitHubStats = () => {
     followers: 0,
     contributions: 0,
   });
+  const [languages, setLanguages] = useState<LanguageData[]>([]);
+  
+  // Generate contribution data once
+  const contributionData = useMemo(() => generateContributionData(), []);
+  
+  // Calculate streaks
+  const { currentStreak, longestStreak, totalContributions } = useMemo(() => {
+    let current = 0;
+    let longest = 0;
+    let tempStreak = 0;
+    let total = 0;
+    
+    // Calculate from recent to past
+    const reversedData = [...contributionData].reverse();
+    
+    for (let i = 0; i < reversedData.length; i++) {
+      total += reversedData[i].count;
+      
+      if (reversedData[i].count > 0) {
+        tempStreak++;
+        if (i < 30 && current === 0) current = tempStreak; // Current streak (within last 30 days)
+      } else {
+        if (tempStreak > longest) longest = tempStreak;
+        tempStreak = 0;
+        if (current === 0 && i < 30) current = 0;
+      }
+    }
+    if (tempStreak > longest) longest = tempStreak;
+    
+    return { currentStreak: Math.min(current, 30), longestStreak: longest, totalContributions: total };
+  }, [contributionData]);
 
   useEffect(() => {
     const fetchGitHubData = async () => {
@@ -66,14 +149,32 @@ const GitHubStats = () => {
           0
         );
 
-        const estimatedContributions = userData.public_repos * 15;
+        // Calculate language distribution
+        const langCount: Record<string, number> = {};
+        reposData.forEach((repo) => {
+          if (repo.language) {
+            langCount[repo.language] = (langCount[repo.language] || 0) + 1;
+          }
+        });
+        
+        const totalLangs = Object.values(langCount).reduce((a, b) => a + b, 0);
+        const langData: LanguageData[] = Object.entries(langCount)
+          .map(([name, count]) => ({
+            name,
+            percentage: Math.round((count / totalLangs) * 100),
+            color: languageColors[name] || "#8b8b8b",
+          }))
+          .sort((a, b) => b.percentage - a.percentage)
+          .slice(0, 6);
+        
+        setLanguages(langData);
 
         setStats({
           repos: userData.public_repos,
           stars: totalStars,
           forks: totalForks,
           followers: userData.followers,
-          contributions: estimatedContributions,
+          contributions: totalContributions,
         });
         setLoading(false);
       } catch (error) {
@@ -83,7 +184,7 @@ const GitHubStats = () => {
     };
 
     fetchGitHubData();
-  }, []);
+  }, [totalContributions]);
 
   useEffect(() => {
     if (loading) return;
@@ -147,6 +248,47 @@ const GitHubStats = () => {
     },
   ];
 
+  // Get month labels for heatmap
+  const getMonthLabels = () => {
+    const months: string[] = [];
+    const today = new Date();
+    for (let i = 11; i >= 0; i--) {
+      const date = new Date(today);
+      date.setMonth(date.getMonth() - i);
+      months.push(date.toLocaleDateString('en', { month: 'short' }));
+    }
+    return months;
+  };
+
+  // Organize data into weeks for the heatmap
+  const getWeeksData = () => {
+    const weeks: typeof contributionData[] = [];
+    let currentWeek: typeof contributionData = [];
+    
+    // Pad start to align with Sunday
+    const firstDay = contributionData[0]?.date.getDay() || 0;
+    for (let i = 0; i < firstDay; i++) {
+      currentWeek.push({ date: new Date(), count: -1, level: -1 });
+    }
+    
+    contributionData.forEach((day) => {
+      currentWeek.push(day);
+      if (currentWeek.length === 7) {
+        weeks.push(currentWeek);
+        currentWeek = [];
+      }
+    });
+    
+    if (currentWeek.length > 0) {
+      weeks.push(currentWeek);
+    }
+    
+    return weeks;
+  };
+
+  const weeksData = useMemo(() => getWeeksData(), [contributionData]);
+  const monthLabels = useMemo(() => getMonthLabels(), []);
+
   return (
     <section id="github" className="section-padding relative overflow-hidden">
       {/* Floating Particles */}
@@ -163,21 +305,17 @@ const GitHubStats = () => {
         <ScrollReveal>
           <div className="text-center mb-16">
             <span className="text-primary font-mono text-sm tracking-wider uppercase">
-              GitHub
+              {t('github.subtitle')}
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
-              Coding <span className="gradient-text">Activity</span>
+              {t('github.title')} <span className="gradient-text">{t('github.highlight')}</span>
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-              Real-time statistics from my GitHub profile. Track my open source
-              contributions and coding activity.
-            </p>
           </div>
         </ScrollReveal>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto mb-12">
           {statCards.map((stat, index) => (
             <ScrollReveal key={stat.label} animation="zoom" delay={index * 100}>
               <div className="glass-card p-6 text-center hover-lift hover-glow">
@@ -199,49 +337,204 @@ const GitHubStats = () => {
           ))}
         </div>
 
+        {/* Streak Counter */}
+        <ScrollReveal delay={200}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12">
+            {/* Current Streak */}
+            <div className="glass-card p-6 text-center hover-lift group">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Flame className="h-8 w-8 text-orange-500 group-hover:animate-pulse" />
+                <Flame className="h-6 w-6 text-orange-400 group-hover:animate-pulse" style={{ animationDelay: "0.1s" }} />
+              </div>
+              <div className="text-4xl font-bold text-orange-500 mb-1">
+                {loading ? "..." : currentStreak}
+              </div>
+              <div className="text-sm text-muted-foreground">Current Streak</div>
+              <div className="text-xs text-muted-foreground/70 mt-1">days</div>
+            </div>
+
+            {/* Longest Streak */}
+            <div className="glass-card p-6 text-center hover-lift group">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <TrendingUp className="h-8 w-8 text-green-500" />
+              </div>
+              <div className="text-4xl font-bold text-green-500 mb-1">
+                {loading ? "..." : longestStreak}
+              </div>
+              <div className="text-sm text-muted-foreground">Longest Streak</div>
+              <div className="text-xs text-muted-foreground/70 mt-1">days</div>
+            </div>
+
+            {/* Total This Year */}
+            <div className="glass-card p-6 text-center hover-lift group">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Calendar className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-4xl font-bold text-primary mb-1">
+                {loading ? "..." : totalContributions.toLocaleString()}
+              </div>
+              <div className="text-sm text-muted-foreground">This Year</div>
+              <div className="text-xs text-muted-foreground/70 mt-1">contributions</div>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {/* Contribution Heatmap - Takes 2 columns */}
+          <ScrollReveal delay={300} className="lg:col-span-2">
+            <div className="glass-card p-6 h-full">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <Activity className="h-5 w-5 text-primary" />
+                Contribution Calendar
+              </h3>
+              
+              {/* Month labels */}
+              <div className="flex justify-between text-xs text-muted-foreground mb-2 px-6">
+                {monthLabels.map((month, i) => (
+                  <span key={i} className="w-8 text-center">{i % 2 === 0 ? month : ''}</span>
+                ))}
+              </div>
+              
+              {/* Heatmap Grid */}
+              <div className="flex gap-[3px] overflow-x-auto pb-2">
+                {/* Day labels */}
+                <div className="flex flex-col gap-[3px] text-xs text-muted-foreground pr-2">
+                  <span className="h-[12px]"></span>
+                  <span className="h-[12px] flex items-center">Mon</span>
+                  <span className="h-[12px]"></span>
+                  <span className="h-[12px] flex items-center">Wed</span>
+                  <span className="h-[12px]"></span>
+                  <span className="h-[12px] flex items-center">Fri</span>
+                  <span className="h-[12px]"></span>
+                </div>
+                
+                {/* Contribution squares */}
+                {weeksData.map((week, weekIndex) => (
+                  <div key={weekIndex} className="flex flex-col gap-[3px]">
+                    {week.map((day, dayIndex) => {
+                      if (day.level === -1) {
+                        return <div key={dayIndex} className="w-[12px] h-[12px]" />;
+                      }
+                      
+                      const levelColors = [
+                        "bg-muted hover:bg-muted/80",
+                        "bg-green-900/60 hover:bg-green-900/80",
+                        "bg-green-700/70 hover:bg-green-700/90",
+                        "bg-green-500/80 hover:bg-green-500",
+                        "bg-green-400 hover:bg-green-300",
+                      ];
+                      
+                      return (
+                        <div
+                          key={dayIndex}
+                          className={`w-[12px] h-[12px] rounded-sm ${levelColors[day.level]} transition-all cursor-pointer hover:scale-125 hover:z-10`}
+                          title={`${day.date.toLocaleDateString()}: ${day.count} contributions`}
+                        />
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Legend */}
+              <div className="flex items-center justify-end gap-2 mt-4 text-xs text-muted-foreground">
+                <span>Less</span>
+                <div className="flex gap-[3px]">
+                  {["bg-muted", "bg-green-900/60", "bg-green-700/70", "bg-green-500/80", "bg-green-400"].map((color, i) => (
+                    <div key={i} className={`w-[12px] h-[12px] rounded-sm ${color}`} />
+                  ))}
+                </div>
+                <span>More</span>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Language Distribution */}
+          <ScrollReveal delay={400}>
+            <div className="glass-card p-6 h-full">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-r from-yellow-500 via-green-500 to-blue-500" />
+                Languages
+              </h3>
+              
+              {/* Donut Chart */}
+              <div className="relative w-40 h-40 mx-auto mb-6">
+                <svg viewBox="0 0 100 100" className="transform -rotate-90">
+                  {languages.length > 0 ? (
+                    (() => {
+                      let cumulativePercentage = 0;
+                      return languages.map((lang, index) => {
+                        const startAngle = cumulativePercentage * 3.6;
+                        cumulativePercentage += lang.percentage;
+                        const endAngle = cumulativePercentage * 3.6;
+                        
+                        const startRad = (startAngle * Math.PI) / 180;
+                        const endRad = (endAngle * Math.PI) / 180;
+                        
+                        const x1 = 50 + 40 * Math.cos(startRad);
+                        const y1 = 50 + 40 * Math.sin(startRad);
+                        const x2 = 50 + 40 * Math.cos(endRad);
+                        const y2 = 50 + 40 * Math.sin(endRad);
+                        
+                        const largeArcFlag = lang.percentage > 50 ? 1 : 0;
+                        
+                        return (
+                          <path
+                            key={lang.name}
+                            d={`M 50 50 L ${x1} ${y1} A 40 40 0 ${largeArcFlag} 1 ${x2} ${y2} Z`}
+                            fill={lang.color}
+                            className="transition-all duration-300 hover:opacity-80"
+                            style={{
+                              filter: `drop-shadow(0 0 4px ${lang.color}40)`,
+                            }}
+                          />
+                        );
+                      });
+                    })()
+                  ) : (
+                    <circle cx="50" cy="50" r="40" fill="hsl(var(--muted))" />
+                  )}
+                </svg>
+                {/* Center hole */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-card flex items-center justify-center">
+                    <span className="text-2xl font-bold">{languages.length}</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Language list */}
+              <div className="space-y-2">
+                {languages.map((lang) => (
+                  <div key={lang.name} className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: lang.color }}
+                      />
+                      <span>{lang.name}</span>
+                    </div>
+                    <span className="text-muted-foreground">{lang.percentage}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+
         {/* GitHub Profile Link */}
-        <ScrollReveal delay={400}>
+        <ScrollReveal delay={500}>
           <div className="mt-12 text-center">
             <a
               href={`https://github.com/${GITHUB_USERNAME}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 glass-card hover:bg-primary/10 transition-colors rounded-full font-medium"
+              className="inline-flex items-center gap-2 px-6 py-3 glass-card hover:bg-primary/10 transition-colors rounded-full font-medium group"
             >
-              <Github className="h-5 w-5" />
-              View GitHub Profile
+              <Github className="h-5 w-5 group-hover:rotate-12 transition-transform" />
+              {t('github.viewProfile')}
             </a>
-          </div>
-        </ScrollReveal>
-
-        {/* Contribution Graph */}
-        <ScrollReveal delay={500}>
-          <div className="mt-12 glass-card p-6 max-w-4xl mx-auto">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Activity className="h-5 w-5 text-primary" />
-              Contribution Activity
-            </h3>
-            <div className="grid grid-cols-7 gap-1">
-              {Array.from({ length: 49 }).map((_, i) => {
-                const intensity = Math.random();
-                let bgClass = "bg-muted";
-                if (intensity > 0.8) bgClass = "bg-primary";
-                else if (intensity > 0.6) bgClass = "bg-primary/70";
-                else if (intensity > 0.4) bgClass = "bg-primary/40";
-                else if (intensity > 0.2) bgClass = "bg-primary/20";
-
-                return (
-                  <div
-                    key={i}
-                    className={`aspect-square rounded-sm ${bgClass} transition-colors hover:ring-2 hover:ring-primary/50`}
-                    title={`${Math.floor(Math.random() * 10)} contributions`}
-                  />
-                );
-              })}
-            </div>
-            <p className="text-xs text-muted-foreground mt-4 text-center">
-              Activity visualization based on recent contributions
-            </p>
           </div>
         </ScrollReveal>
       </div>
