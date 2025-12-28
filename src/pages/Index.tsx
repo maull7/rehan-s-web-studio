@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FloatingCard from "@/components/FloatingCard";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import IdCard3D from "@/components/sections/IdCard3D";
@@ -29,7 +28,6 @@ const Index = () => {
 
       <div className="min-h-screen bg-background overflow-x-hidden">
         <Navbar />
-        <FloatingCard />
         <main>
           <Hero />
           <About />
