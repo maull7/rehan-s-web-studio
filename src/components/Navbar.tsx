@@ -2,20 +2,24 @@ import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { Button } from "@/components/ui/button";
+import useActiveSection from "@/hooks/useActiveSection";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Experience", href: "#experience" },
-  { name: "Projects", href: "#projects" },
-  { name: "GitHub", href: "#github" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "#home", id: "home" },
+  { name: "About", href: "#about", id: "about" },
+  { name: "Experience", href: "#experience", id: "experience" },
+  { name: "Projects", href: "#projects", id: "projects" },
+  { name: "GitHub", href: "#github", id: "github" },
+  { name: "Contact", href: "#contact", id: "contact" },
 ];
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  const activeSection = useActiveSection(navLinks.map((link) => link.id));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,30 +33,45 @@ const Navbar = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace("#", "");
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "glass py-3"
-          : "bg-transparent py-5"
+        isScrolled ? "glass py-3" : "bg-transparent py-5"
       }`}
     >
       <div className="container-custom flex items-center justify-between">
         {/* Logo */}
         <a
           href="#home"
+          onClick={(e) => handleNavClick(e, "#home")}
           className="text-xl font-bold gradient-text hover:opacity-80 transition-opacity"
         >
           RM.
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
+              onClick={(e) => handleNavClick(e, link.href)}
+              className={cn(
+                "px-4 py-2 text-sm font-medium rounded-full transition-all duration-300",
+                activeSection === link.id
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-primary/10"
+              )}
             >
               {link.name}
             </a>
@@ -93,13 +112,17 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden glass mt-2 mx-4 rounded-2xl p-4 animate-fade-up">
-          {navLinks.map((link, index) => (
+          {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block py-3 px-4 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-primary/10 rounded-xl transition-all"
-              style={{ animationDelay: `${index * 0.05}s` }}
+              onClick={(e) => handleNavClick(e, link.href)}
+              className={cn(
+                "block py-3 px-4 text-sm font-medium rounded-xl transition-all",
+                activeSection === link.id
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-primary/10"
+              )}
             >
               {link.name}
             </a>
