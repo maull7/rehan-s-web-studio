@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import FloatingCard from "@/components/FloatingCard";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
+import IdCard3D from "@/components/sections/IdCard3D";
 import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import GitHubStats from "@/components/sections/GitHubStats";
@@ -32,6 +33,7 @@ const Index = () => {
         <main>
           <Hero />
           <About />
+          <IdCard3D />
           <Experience />
           <Projects />
           <GitHubStats />
