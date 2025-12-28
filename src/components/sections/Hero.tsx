@@ -1,4 +1,4 @@
-import { ArrowDown, ExternalLink, Code2, Zap, Rocket, Laptop, Braces } from "lucide-react";
+import { ArrowDown, ExternalLink, Code2, Zap, Rocket, Laptop, Braces, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useTypingAnimation from "@/hooks/useTypingAnimation";
 import { useState, useEffect } from "react";
@@ -118,7 +118,7 @@ const Hero = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-fade-up delay-400">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 animate-fade-up delay-400">
               <Button
                 size="lg"
                 className="group rounded-full px-8 bg-primary hover:bg-primary/90 hover-glow"
@@ -136,6 +136,22 @@ const Hero = () => {
                 asChild
               >
                 <a href="#contact">Contact Me</a>
+              </Button>
+              <Button
+                size="lg"
+                variant="secondary"
+                className="group rounded-full px-8 hover:bg-secondary/80"
+                asChild
+              >
+                <a 
+                  href="/cv-rehan-maulana.pdf" 
+                  download="CV-Rehan-Maulana.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Download className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                  Download CV
+                </a>
               </Button>
             </div>
           </div>
