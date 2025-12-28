@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const contactInfo = [
   {
@@ -70,7 +71,6 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast({
@@ -86,67 +86,74 @@ const Contact = () => {
     <section id="contact" className="section-padding bg-card/30">
       <div className="container-custom">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary font-mono text-sm tracking-wider uppercase">
-            Contact
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
-            Get In <span className="gradient-text">Touch</span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
-          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-            Have a project in mind or want to collaborate? Feel free to reach out.
-            I'm always open to discussing new opportunities.
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="text-center mb-16">
+            <span className="text-primary font-mono text-sm tracking-wider uppercase">
+              Contact
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
+              Get In <span className="gradient-text">Touch</span>
+            </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+              Have a project in mind or want to collaborate? Feel free to reach out.
+              I'm always open to discussing new opportunities.
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 max-w-6xl mx-auto">
           {/* Contact Info */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="glass-card p-6">
-              <h3 className="text-xl font-semibold mb-6">Contact Information</h3>
+            <ScrollReveal animation="fade-left" delay={100}>
+              <div className="glass-card p-6">
+                <h3 className="text-xl font-semibold mb-6">Contact Information</h3>
 
-              <div className="space-y-4">
-                {contactInfo.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-primary/10 transition-colors group"
-                  >
-                    <div className="p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      <item.icon className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">{item.label}</p>
-                      <p className="font-medium">{item.value}</p>
-                    </div>
-                  </a>
-                ))}
+                <div className="space-y-4">
+                  {contactInfo.map((item, index) => (
+                    <ScrollReveal key={item.label} animation="fade-left" delay={150 + index * 50}>
+                      <a
+                        href={item.href}
+                        className="flex items-center gap-4 p-3 rounded-xl hover:bg-primary/10 transition-colors group"
+                      >
+                        <div className="p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                          <item.icon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-muted-foreground">{item.label}</p>
+                          <p className="font-medium">{item.value}</p>
+                        </div>
+                      </a>
+                    </ScrollReveal>
+                  ))}
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Social Links */}
-            <div className="glass-card p-6">
-              <h3 className="text-lg font-semibold mb-4">Follow Me</h3>
-              <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`p-3 rounded-full bg-secondary text-muted-foreground transition-all hover:scale-110 ${social.color}`}
-                    aria-label={social.label}
-                  >
-                    <social.icon className="h-5 w-5" />
-                  </a>
-                ))}
+            <ScrollReveal animation="fade-left" delay={300}>
+              <div className="glass-card p-6">
+                <h3 className="text-lg font-semibold mb-4">Follow Me</h3>
+                <div className="flex gap-3">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`p-3 rounded-full bg-secondary text-muted-foreground transition-all hover:scale-110 ${social.color}`}
+                      aria-label={social.label}
+                    >
+                      <social.icon className="h-5 w-5" />
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
 
           {/* Contact Form */}
-          <div className="lg:col-span-3">
+          <ScrollReveal animation="fade-right" delay={200} className="lg:col-span-3">
             <form onSubmit={handleSubmit} className="glass-card p-6 md:p-8">
               <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
 
@@ -244,7 +251,7 @@ const Contact = () => {
                 )}
               </Button>
             </form>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
