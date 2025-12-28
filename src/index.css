@@ -190,6 +190,28 @@
   }
 }
 
+@keyframes orbitLeft {
+  0%, 100% {
+    transform: translateX(0) translateY(-50%);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(50px) translateY(-50%);
+    opacity: 0.5;
+  }
+}
+
+@keyframes orbitRight {
+  0%, 100% {
+    transform: translateX(0) translateY(-50%);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50px) translateY(-50%);
+    opacity: 0.5;
+  }
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;

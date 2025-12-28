@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Github, GitFork, Star, BookOpen, Activity } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
+import SectionParticles from "@/components/SectionParticles";
 
 interface GitHubUser {
   public_repos: number;
@@ -147,8 +148,17 @@ const GitHubStats = () => {
   ];
 
   return (
-    <section id="github" className="section-padding">
-      <div className="container-custom">
+    <section id="github" className="section-padding relative overflow-hidden">
+      {/* Floating Particles */}
+      <SectionParticles count={20} />
+
+      {/* Background glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/3 left-0 w-72 h-72 bg-green-500/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-primary/10 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
           <div className="text-center mb-16">
