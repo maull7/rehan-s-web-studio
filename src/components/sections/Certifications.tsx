@@ -6,52 +6,41 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const certifications = [
   {
     id: 1,
-    title: "React - The Complete Guide",
-    issuer: "Udemy",
-    date: "2024",
-    credentialUrl: "https://udemy.com/certificate/example",
-    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=100&h=100&fit=crop",
-    skills: ["React", "Redux", "Hooks"],
-  },
-  {
-    id: 2,
-    title: "JavaScript Algorithms and Data Structures",
-    issuer: "freeCodeCamp",
-    date: "2023",
-    credentialUrl: "https://freecodecamp.org/certification/example",
-    image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=100&h=100&fit=crop",
-    skills: ["JavaScript", "Algorithms", "Data Structures"],
-  },
-  {
-    id: 3,
-    title: "Responsive Web Design",
-    issuer: "freeCodeCamp",
-    date: "2023",
-    credentialUrl: "https://freecodecamp.org/certification/example",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    skills: ["HTML", "CSS", "Flexbox", "Grid"],
-  },
-  {
-    id: 4,
-    title: "Node.js Developer Course",
-    issuer: "Udemy",
-    date: "2024",
-    credentialUrl: "https://udemy.com/certificate/example",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=100&h=100&fit=crop",
-    skills: ["Node.js", "Express", "MongoDB"],
-  },
+    title: "Web Developer Intern",
+    issuer: "Intern",
+    date: "2025",
+    credentialUrl: "/sertif-rehan.pdf",
+    image: "/sertif-rehan.pdf",
+    skills: ["Svelte", "Next", "Laravel","Database","Project"],
+  }
 ];
-
 const education = [
   {
     id: 1,
-    degree: "Bachelor of Computer Science",
-    institution: "Universitas Indonesia",
-    period: "2020 - 2024",
-    description: "Focused on Software Engineering and Web Development",
-    gpa: "3.8/4.0",
+    degree: "Sekolah Dasar (SD)",
+    institution: "SDN 1 Wanaherang",
+    period: "2014 - 2020",
+    description: "Mempelajari dasar-dasar pendidikan umum seperti membaca, menulis, berhitung, serta pengenalan teknologi.",
+    gpa: null,
+  },
+  {
+    id: 2,
+    degree: "Sekolah Menengah Pertama (SMP)",
+    institution: "SMPN 1 Gunung Putri",
+    period: "2020 - 2023",
+    description: "Mengembangkan pengetahuan akademik dan mulai mengenal dasar-dasar teknologi informasi.",
+    gpa: null,
+  },
+  {
+    id: 3,
+    degree: "Sekolah Menengah Kejuruan (SMK)",
+    institution: "SMKS Madya Depok",
+    period: "2023 - 2026",
+    description: "Fokus pada Rekayasa Perangkat Lunak, pengembangan web, dan pemrograman dasar hingga menengah.",
+    gpa: null,
   },
 ];
+
 
 const Certifications = () => {
   const { t } = useLanguage();
@@ -95,7 +84,7 @@ const Certifications = () => {
 
             {education.map((edu, index) => (
               <ScrollReveal key={edu.id} animation="fade-left" delay={100 + index * 100}>
-                <div className="glass-card p-6 hover-lift group">
+                <div className="glass-card p-6 hover-lift group mb-3">
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h4 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
@@ -104,7 +93,7 @@ const Certifications = () => {
                       <p className="text-primary font-medium">{edu.institution}</p>
                     </div>
                     <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
-                      GPA: {edu.gpa}
+                      {edu.gpa ?? ""}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">

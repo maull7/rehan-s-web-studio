@@ -118,7 +118,7 @@ const Hero = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 animate-fade-up delay-400">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 animate-fade-up delay-400 mb-3">
               <Button
                 size="lg"
                 className="group rounded-full px-8 bg-primary hover:bg-primary/90 hover-glow"
@@ -144,7 +144,7 @@ const Hero = () => {
                 asChild
               >
                 <a 
-                  href="/cv-rehan-maulana.pdf" 
+                  href="/CV REHAN MAULANA.pdf" 
                   download="CV-Rehan-Maulana.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -166,7 +166,7 @@ const Hero = () => {
               <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-primary/30 glass-card p-2">
                 <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20">
                   <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+                    src="/hero-rehan.webp"
                     alt="Rehan Maulana - Web Developer"
                     className="w-full h-full object-cover"
                   />

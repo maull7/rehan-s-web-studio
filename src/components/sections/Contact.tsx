@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,19 +11,19 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "rehan.maulana@example.com",
-    href: "mailto:rehan.maulana@example.com",
+    value: "rehanmaulanaaa121@gmail.com",
+    href: "mailto:rehanmaulanaaa121@gmail.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+62 812 3456 7890",
-    href: "tel:+6281234567890",
+    value: "+62 851 5716 6284",
+    href: "tel:+6285157166284",
   },
   {
     icon: MapPin,
     label: "Location",
-    value: "Jakarta, Indonesia",
+    value: "Kab Bogor, Indonesia",
     href: "#",
   },
 ];
@@ -42,9 +42,9 @@ const socialLinks = [
     color: "hover:text-blue-500",
   },
   {
-    icon: Twitter,
-    label: "Twitter",
-    href: "https://twitter.com/rehanmaulana",
+    icon: Instagram,
+    label: "Instagram",
+    href: "https://instagram.com/hxans_1",
     color: "hover:text-sky-500",
   },
 ];

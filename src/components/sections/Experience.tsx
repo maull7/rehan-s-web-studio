@@ -6,7 +6,7 @@ const experiences = [
   {
     id: 1,
     position: "Web Developer Intern",
-    company: "PT Bonet",
+    company: "PT Bonet Utama",
     location: "Indonesia",
     duration: "4 Months",
     period: "2024",
@@ -14,12 +14,11 @@ const experiences = [
       "Contributed to the development of internal web applications and gained hands-on experience with modern web technologies.",
     responsibilities: [
       "Assisted in developing and maintaining internal company websites",
-      "Implemented responsive UI components based on Figma designs",
       "Integrated RESTful APIs for dynamic data fetching",
       "Collaborated with the development team using Git for version control",
       "Participated in code reviews and team meetings",
     ],
-    technologies: ["React", "Tailwind CSS", "REST API", "Git", "Figma"],
+    technologies: ["Next", "Tailwind CSS", "REST API", "Git", "Svelte","Laravel"],
   },
 ];
 

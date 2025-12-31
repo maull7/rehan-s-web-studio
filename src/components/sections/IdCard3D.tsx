@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const techIcons = [
   { name: "HTML", color: "#E34F26" },
-  { name: "CSS", color: "#1572B6" },
+  { name: "PHP", color: "#1572B6" },
   { name: "JS", color: "#F7DF1E" },
   { name: "React", color: "#61DAFB" },
 ];
@@ -298,7 +298,7 @@ const IdCard3D = () => {
               Identity
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
-              Digital <span className="gradient-text">ID Card</span>
+              Digital <span className="gradient-text">Card</span>
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
             <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
@@ -448,7 +448,7 @@ const IdCard3D = () => {
                   <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary to-purple-500 opacity-80 blur-sm" />
                   <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-xl">
                     <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+                      src="/hero-rehan.webp"
                       alt="Rehan Maulana"
                       className="w-full h-full object-cover"
                     />
@@ -481,7 +481,7 @@ const IdCard3D = () => {
                   className="font-mono text-xs text-muted-foreground mb-4"
                   style={{ transform: "translateZ(20px)" }}
                 >
-                  ID: DEV-2024-RM001
+                 GITHUB : MAULL7
                 </div>
 
                 {/* Divider */}
@@ -514,7 +514,7 @@ const IdCard3D = () => {
                   style={{ transform: "translateZ(25px)" }}
                 >
                   <div className="px-3">
-                    <p className="text-lg font-bold text-foreground">3+</p>
+                    <p className="text-lg font-bold text-foreground">2+</p>
                     <p className="text-[9px] text-muted-foreground uppercase">Years</p>
                   </div>
                   <div className="w-px h-8 bg-border" />
@@ -545,12 +545,7 @@ const IdCard3D = () => {
                 </div>
 
                 {/* QR Code Placeholder */}
-                <div 
-                  className="absolute bottom-4 right-4 w-12 h-12 bg-white rounded-lg p-1 shadow-lg"
-                  style={{ transform: "translateZ(30px)" }}
-                >
-                  <div className="w-full h-full bg-[repeating-conic-gradient(#000_0%_25%,#fff_0%_50%)] bg-[length:25%_25%] rounded" />
-                </div>
+              
               </div>
 
               {/* Shine Effect */}
@@ -574,15 +569,11 @@ const IdCard3D = () => {
         <ScrollReveal delay={200}>
           <div className="flex justify-center gap-6 mt-8">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                👆
-              </span>
+            
               <span>Click & drag to swing</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                ✨
-              </span>
+              
               <span>Release to see physics</span>
             </div>
           </div>

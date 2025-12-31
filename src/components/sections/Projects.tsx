@@ -3,73 +3,178 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionParticles from "@/components/SectionParticles";
-
 export const projects = [
   {
-    id: "ecommerce-platform",
-    title: "E-Commerce Platform",
+    id: "cat-sebasa",
+    title: "Cat Sebasa",
     shortDescription:
-      "A full-featured e-commerce platform with cart, checkout, and payment integration.",
+      "A web-based learning platform for students with structured materials and practice exercises.",
     fullDescription:
-      "A comprehensive e-commerce solution built from scratch, featuring a modern UI, shopping cart functionality, secure checkout process, and integrated payment gateway. The platform includes admin dashboard for inventory management and order tracking.",
+      "Cat Sebasa is an educational web platform designed for students to access learning materials and practice exercises online. The system helps schools manage digital learning content efficiently and allows students to learn independently through structured modules.",
     problem:
-      "Small businesses often struggle with expensive e-commerce solutions that don't fit their specific needs. They need a customizable, cost-effective platform that can scale with their growth.",
+      "Schools often struggle to provide centralized and accessible learning materials for students outside the classroom.",
     solution:
-      "Built a modular e-commerce platform using React and Node.js that allows businesses to easily customize their storefront, manage inventory, and process payments securely. The system is designed to be scalable and easy to maintain.",
+      "Developed a web-based learning platform where students can access materials, exercises, and learning resources anytime. The system is simple, structured, and easy to use for both students and teachers.",
     thumbnail:
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
     screenshots: [
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=800&fit=crop",
       "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&h=800&fit=crop",
     ],
-    technologies: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
-    liveUrl: "https://example.com",
+    technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Bootstrap"],
+    liveUrl: "https://cat-sebasa.id",
     githubUrl: "https://github.com/maull7",
     featured: true,
   },
   {
-    id: "task-management",
-    title: "Task Management App",
+    id: "silapa-app",
+    title: "Silapa App",
     shortDescription:
-      "A collaborative task management tool with real-time updates and team features.",
+      "A document submission and approval system from application to fund disbursement.",
     fullDescription:
-      "A powerful task management application designed for teams, featuring real-time collaboration, task assignments, progress tracking, and team communication tools. Built with modern web technologies for optimal performance.",
+      "Silapa App is a web application designed to manage document submissions, verification, and approval processes until fund disbursement. The system improves transparency and efficiency in administrative workflows.",
     problem:
-      "Remote teams often face challenges in coordinating tasks and maintaining visibility on project progress. Existing tools are often complex and overwhelming.",
+      "Manual document submission processes are slow, error-prone, and difficult to track.",
     solution:
-      "Created an intuitive task management system with real-time updates, drag-and-drop functionality, and clear visual indicators for task status. The app focuses on simplicity while providing powerful features for team collaboration.",
+      "Built a digital workflow system that allows users to submit documents online, track approval status, and ensure a transparent process until completion.",
     thumbnail:
       "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop",
     screenshots: [
       "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=1200&h=800&fit=crop",
     ],
-    technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Socket.io"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/maull7",
+    technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Bootstrap"],
+    liveUrl: "https://silapa.id",
+    githubUrl: "https://github.com/maull7/silapa",
     featured: true,
   },
   {
-    id: "portfolio-website",
-    title: "Personal Portfolio",
+    id: "sipedu-app",
+    title: "Sipedu Education",
     shortDescription:
-      "A modern, responsive portfolio website showcasing projects and skills.",
+      "An education management system for inputting grades and generating certificates.",
     fullDescription:
-      "A beautifully designed portfolio website featuring smooth animations, dark/light mode, and responsive design. Built to showcase projects, skills, and professional experience in an engaging way.",
+      "Sipedu is an education system used to manage student grades, process academic data, and generate official certificates automatically based on stored results.",
     problem:
-      "Developers need a professional online presence to showcase their work and attract potential employers or clients.",
+      "Manual grade processing and certificate creation are time-consuming and prone to errors.",
     solution:
-      "Designed and developed a modern portfolio website with attention to detail, featuring glassmorphism effects, smooth animations, and optimal performance. The site is fully responsive and accessible.",
+      "Developed a system that allows teachers to input grades digitally and automatically generate structured certificates.",
     thumbnail:
       "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
     screenshots: [
       "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
     ],
-    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/maull7",
+    technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Bootstrap"],
+    liveUrl: "https://sipedu-sebasa.id",
+    githubUrl: "https://github.com/maull7/sipedu-app",
+    featured: false,
+  },
+  {
+    id: "cbt-app",
+    title: "CBT Madani",
+    shortDescription:
+      "A computer-based testing (CBT) system for school examinations.",
+    fullDescription:
+      "CBT Madani is a web-based examination system used by SMK Madani to conduct online exams. It supports multiple exam types, time limits, and automatic scoring.",
+    problem:
+      "Traditional paper-based exams require more time, cost, and manual correction.",
+    solution:
+      "Built a CBT system that allows schools to conduct exams digitally with automatic grading and real-time monitoring.",
+    thumbnail:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+    screenshots: [
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+    ],
+    technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Tailwind CSS"],
+    liveUrl: null,
+    githubUrl: "https://github.com/maull7/cbt-app",
+    featured: false,
+  },
+  {
+    id: "absen-bimba",
+    title: "Absensi Bimba",
+    shortDescription:
+      "An employee attendance system using barcode scanning.",
+    fullDescription:
+      "Absensi Bimba is an attendance system for Bimba employees that uses barcode scanning to record check-in and check-out times accurately.",
+    problem:
+      "Manual attendance systems are inefficient and vulnerable to manipulation.",
+    solution:
+      "Developed a barcode-based attendance system to ensure fast, accurate, and secure employee attendance tracking.",
+    thumbnail:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+    screenshots: [
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+    ],
+    technologies: ["PHP", "MySQL", "JavaScript", "Bootstrap"],
+    liveUrl: "https://absenbimba-kahuripan.site",
+    githubUrl: null,
+    featured: false,
+  },
+  {
+    id: "kass-app",
+    title: "Kass Application",
+    shortDescription:
+      "A class cash management application with penalty tracking.",
+    fullDescription:
+      "Kass Application is a class cash management system used to record payments, expenses, and fines for late contributions.",
+    problem:
+      "Class cash records are often managed manually and can lead to data inconsistencies.",
+    solution:
+      "Built a simple and structured cash management system to track payments, expenses, and penalties transparently.",
+    thumbnail:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+    screenshots: [
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+    ],
+    technologies: ["PHP", "MySQL", "JavaScript", "Bootstrap"],
+    liveUrl: null,
+    githubUrl: "https://github.com/maull7/kass",
+    featured: false,
+  },
+  {
+    id: "gallery-react",
+    title: "Gallery React",
+    shortDescription:
+      "An image gallery application consuming public APIs.",
+    fullDescription:
+      "Gallery React is a frontend application that displays image collections fetched from an external API with a responsive and modern UI.",
+    problem:
+      "Users need a simple and fast way to browse image collections from external sources.",
+    solution:
+      "Developed a React-based gallery app that consumes APIs and displays images dynamically.",
+    thumbnail:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+    screenshots: [
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+    ],
+    technologies: ["React", "API", "Tailwind CSS"],
+    liveUrl: "https://galery-react-one.vercel.app/",
+    githubUrl: "https://github.com/maull7/galery-react",
+    featured: false,
+  },
+  {
+    id: "blogs-react",
+    title: "Blogs React",
+    shortDescription:
+      "A full-stack blog application with admin panel.",
+    fullDescription:
+      "Blogs React is a full-stack blogging platform built using React for the frontend and Express.js for the backend. It includes an admin panel for managing posts and content.",
+    problem:
+      "Managing blog content manually without an admin system is inefficient.",
+    solution:
+      "Built a blog system with authentication, admin dashboard, and REST API for content management.",
+    thumbnail:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+    screenshots: [
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+    ],
+    technologies: ["React", "Express JS", "MySQL", "API", "Tailwind CSS"],
+    liveUrl: null,
+    githubUrl: "https://github.com/maull7/blogs-react",
     featured: false,
   },
 ];
+
 
 const Projects = () => {
   return (
