@@ -16,7 +16,7 @@ export const projects = [
     solution:
       "Developed a web-based learning platform where students can access materials, exercises, and learning resources anytime. The system is simple, structured, and easy to use for both students and teachers.",
     thumbnail:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+      "/cat-sebasa.png",
     screenshots: [
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=800&fit=crop",
       "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&h=800&fit=crop",
@@ -38,7 +38,7 @@ export const projects = [
     solution:
       "Built a digital workflow system that allows users to submit documents online, track approval status, and ensure a transparent process until completion.",
     thumbnail:
-      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop",
+      "/silapa.png",
     screenshots: [
       "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=1200&h=800&fit=crop",
     ],
@@ -59,7 +59,7 @@ export const projects = [
     solution:
       "Developed a system that allows teachers to input grades digitally and automatically generate structured certificates.",
     thumbnail:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+      "/sipedu.png",
     screenshots: [
       "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
     ],
@@ -68,27 +68,27 @@ export const projects = [
     githubUrl: "https://github.com/maull7/sipedu-app",
     featured: false,
   },
-  {
-    id: "cbt-app",
-    title: "CBT Madani",
-    shortDescription:
-      "A computer-based testing (CBT) system for school examinations.",
-    fullDescription:
-      "CBT Madani is a web-based examination system used by SMK Madani to conduct online exams. It supports multiple exam types, time limits, and automatic scoring.",
-    problem:
-      "Traditional paper-based exams require more time, cost, and manual correction.",
-    solution:
-      "Built a CBT system that allows schools to conduct exams digitally with automatic grading and real-time monitoring.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
-    screenshots: [
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
-    ],
-    technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Tailwind CSS"],
-    liveUrl: null,
-    githubUrl: "https://github.com/maull7/cbt-app",
-    featured: false,
-  },
+  // {
+  //   id: "cbt-app",
+  //   title: "CBT Madani",
+  //   shortDescription:
+  //     "A computer-based testing (CBT) system for school examinations.",
+  //   fullDescription:
+  //     "CBT Madani is a web-based examination system used by SMK Madani to conduct online exams. It supports multiple exam types, time limits, and automatic scoring.",
+  //   problem:
+  //     "Traditional paper-based exams require more time, cost, and manual correction.",
+  //   solution:
+  //     "Built a CBT system that allows schools to conduct exams digitally with automatic grading and real-time monitoring.",
+  //   thumbnail:
+  //     "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+  //   screenshots: [
+  //     "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+  //   ],
+  //   technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Tailwind CSS"],
+  //   liveUrl: null,
+  //   githubUrl: "https://github.com/maull7/cbt-app",
+  //   featured: false,
+  // },
   {
     id: "absen-bimba",
     title: "Absensi Bimba",
@@ -101,7 +101,7 @@ export const projects = [
     solution:
       "Developed a barcode-based attendance system to ensure fast, accurate, and secure employee attendance tracking.",
     thumbnail:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+      "/absen-karyawan.png",
     screenshots: [
       "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
     ],
@@ -110,27 +110,27 @@ export const projects = [
     githubUrl: null,
     featured: false,
   },
-  {
-    id: "kass-app",
-    title: "Kass Application",
-    shortDescription:
-      "A class cash management application with penalty tracking.",
-    fullDescription:
-      "Kass Application is a class cash management system used to record payments, expenses, and fines for late contributions.",
-    problem:
-      "Class cash records are often managed manually and can lead to data inconsistencies.",
-    solution:
-      "Built a simple and structured cash management system to track payments, expenses, and penalties transparently.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
-    screenshots: [
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
-    ],
-    technologies: ["PHP", "MySQL", "JavaScript", "Bootstrap"],
-    liveUrl: null,
-    githubUrl: "https://github.com/maull7/kass",
-    featured: false,
-  },
+  // {
+  //   id: "kass-app",
+  //   title: "Kass Application",
+  //   shortDescription:
+  //     "A class cash management application with penalty tracking.",
+  //   fullDescription:
+  //     "Kass Application is a class cash management system used to record payments, expenses, and fines for late contributions.",
+  //   problem:
+  //     "Class cash records are often managed manually and can lead to data inconsistencies.",
+  //   solution:
+  //     "Built a simple and structured cash management system to track payments, expenses, and penalties transparently.",
+  //   thumbnail:
+  //     "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+  //   screenshots: [
+  //     "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+  //   ],
+  //   technologies: ["PHP", "MySQL", "JavaScript", "Bootstrap"],
+  //   liveUrl: null,
+  //   githubUrl: "https://github.com/maull7/kass",
+  //   featured: false,
+  // },
   {
     id: "gallery-react",
     title: "Gallery React",
@@ -143,7 +143,7 @@ export const projects = [
     solution:
       "Developed a React-based gallery app that consumes APIs and displays images dynamically.",
     thumbnail:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+      "/gallery.png",
     screenshots: [
       "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
     ],
@@ -152,27 +152,27 @@ export const projects = [
     githubUrl: "https://github.com/maull7/galery-react",
     featured: false,
   },
-  {
-    id: "blogs-react",
-    title: "Blogs React",
-    shortDescription:
-      "A full-stack blog application with admin panel.",
-    fullDescription:
-      "Blogs React is a full-stack blogging platform built using React for the frontend and Express.js for the backend. It includes an admin panel for managing posts and content.",
-    problem:
-      "Managing blog content manually without an admin system is inefficient.",
-    solution:
-      "Built a blog system with authentication, admin dashboard, and REST API for content management.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
-    screenshots: [
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
-    ],
-    technologies: ["React", "Express JS", "MySQL", "API", "Tailwind CSS"],
-    liveUrl: null,
-    githubUrl: "https://github.com/maull7/blogs-react",
-    featured: false,
-  },
+  // {
+  //   id: "blogs-react",
+  //   title: "Blogs React",
+  //   shortDescription:
+  //     "A full-stack blog application with admin panel.",
+  //   fullDescription:
+  //     "Blogs React is a full-stack blogging platform built using React for the frontend and Express.js for the backend. It includes an admin panel for managing posts and content.",
+  //   problem:
+  //     "Managing blog content manually without an admin system is inefficient.",
+  //   solution:
+  //     "Built a blog system with authentication, admin dashboard, and REST API for content management.",
+  //   thumbnail:
+  //     "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
+  //   screenshots: [
+  //     "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+  //   ],
+  //   technologies: ["React", "Express JS", "MySQL", "API", "Tailwind CSS"],
+  //   liveUrl: null,
+  //   githubUrl: "https://github.com/maull7/blogs-react",
+  //   featured: false,
+  // },
 ];
 
 
