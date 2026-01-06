@@ -68,27 +68,27 @@ export const projects = [
     githubUrl: "https://github.com/maull7/sipedu-app",
     featured: false,
   },
-  // {
-  //   id: "cbt-app",
-  //   title: "CBT Madani",
-  //   shortDescription:
-  //     "A computer-based testing (CBT) system for school examinations.",
-  //   fullDescription:
-  //     "CBT Madani is a web-based examination system used by SMK Madani to conduct online exams. It supports multiple exam types, time limits, and automatic scoring.",
-  //   problem:
-  //     "Traditional paper-based exams require more time, cost, and manual correction.",
-  //   solution:
-  //     "Built a CBT system that allows schools to conduct exams digitally with automatic grading and real-time monitoring.",
-  //   thumbnail:
-  //     "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
-  //   screenshots: [
-  //     "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
-  //   ],
-  //   technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Tailwind CSS"],
-  //   liveUrl: null,
-  //   githubUrl: "https://github.com/maull7/cbt-app",
-  //   featured: false,
-  // },
+  {
+    id: "cbt-app",
+    title: "CBT Madani",
+    shortDescription:
+      "A computer-based testing (CBT) system for school examinations.",
+    fullDescription:
+      "CBT Madani is a web-based examination system used by SMK Madani to conduct online exams. It supports multiple exam types, time limits, and automatic scoring.",
+    problem:
+      "Traditional paper-based exams require more time, cost, and manual correction.",
+    solution:
+      "Built a CBT system that allows schools to conduct exams digitally with automatic grading and real-time monitoring.",
+    thumbnail:
+      "/CBT-ECP.png",
+    screenshots: [
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop",
+    ],
+    technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Tailwind CSS"],
+    liveUrl: null,
+    githubUrl: "https://github.com/maull7/cbt-app",
+    featured: false,
+  },
   {
     id: "absen-bimba",
     title: "Absensi Bimba",
