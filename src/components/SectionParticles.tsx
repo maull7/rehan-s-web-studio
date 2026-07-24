@@ -7,9 +7,9 @@ interface ParticleProps {
   maxSize?: number;
 }
 
-const SectionParticles = ({ 
-  count = 20, 
-  colors = ["primary", "purple-500", "cyan-500"],
+const SectionParticles = ({
+  count = 20,
+  colors = ["primary", "cyan-400"],
   minSize = 3,
   maxSize = 8
 }: ParticleProps) => {
@@ -30,7 +30,7 @@ const SectionParticles = ({
       {particles.map((particle) => (
         <div
           key={particle.id}
-          className={`absolute rounded-full bg-${particle.color}/40 blur-[1px]`}
+          className="absolute rounded-full blur-[1px]"
           style={{
             width: particle.size,
             height: particle.size,
@@ -38,11 +38,10 @@ const SectionParticles = ({
             top: `${particle.y}%`,
             animation: `floatParticle ${particle.duration}s ease-in-out infinite`,
             animationDelay: `${particle.delay}s`,
-            background: particle.color === "primary" 
-              ? "hsl(var(--primary) / 0.5)"
-              : particle.color === "purple-500"
-              ? "hsl(262 83% 58% / 0.5)"
-              : "hsl(188 78% 48% / 0.5)",
+            background:
+              particle.color === "primary"
+                ? "hsl(var(--primary) / 0.5)"
+                : "hsl(187 92% 50% / 0.5)",
           }}
         />
       ))}

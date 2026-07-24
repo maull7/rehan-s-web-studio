@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter, Instagram } from "lucide-react";
+import { Mail, MapPin, Phone, Send, Github, Linkedin, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "@/components/ScrollReveal";
-import SectionParticles from "@/components/SectionParticles";
 
 const contactInfo = [
   {
@@ -85,18 +84,9 @@ const Contact = () => {
 
   return (
     <section id="contact" className="section-padding bg-card/30 relative overflow-hidden">
-      {/* Floating Particles */}
-      <SectionParticles count={25} />
-
-      {/* Background glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/15 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px]" />
-      </div>
-
       <div className="container-custom relative z-10">
         {/* Section Header */}
-        <ScrollReveal>
+        <ScrollReveal animation="fade">
           <div className="text-center mb-16">
             <span className="text-primary font-mono text-sm tracking-wider uppercase">
               Contact
@@ -104,7 +94,7 @@ const Contact = () => {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
               Get In <span className="gradient-text">Touch</span>
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
+            <div className="w-20 h-1 bg-gradient-to-r from-primary to-cyan-400 mx-auto rounded-full" />
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
               Have a project in mind or want to collaborate? Feel free to reach out.
               I'm always open to discussing new opportunities.

@@ -21,7 +21,7 @@ const ProjectDetail = () => {
       <section className="pt-32 pb-16 gradient-bg relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-400/10 rounded-full blur-3xl" />
         </div>
 
         <div className="container-custom relative z-10">
@@ -86,6 +86,10 @@ const ProjectDetail = () => {
                 <img
                   src={project.screenshots[0]}
                   alt={`${project.title} screenshot`}
+                  width={1200}
+                  height={800}
+                  loading="eager"
+                  decoding="async"
                   className="w-full h-auto"
                 />
               </div>
@@ -127,6 +131,10 @@ const ProjectDetail = () => {
                         <img
                           src={screenshot}
                           alt={`${project.title} screenshot ${index + 2}`}
+                          width={1200}
+                          height={800}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-auto"
                         />
                       </div>

@@ -1,6 +1,6 @@
 import { Briefcase, Calendar, MapPin, CheckCircle2 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import SectionParticles from "@/components/SectionParticles";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const experiences = [
   {
@@ -18,108 +18,89 @@ const experiences = [
       "Collaborated with the development team using Git for version control",
       "Participated in code reviews and team meetings",
     ],
-    technologies: ["Next", "Tailwind CSS", "REST API", "Git", "Svelte","Laravel"],
+    technologies: ["Next", "Tailwind CSS", "REST API", "Git", "Svelte", "Laravel"],
   },
 ];
 
 const Experience = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="experience" className="section-padding relative overflow-hidden">
-      {/* Floating Particles */}
-      <SectionParticles count={20} />
-
-      {/* Background glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px]" />
-      </div>
-
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
           <div className="text-center mb-16">
             <span className="text-primary font-mono text-sm tracking-wider uppercase">
-              Experience
+              {t('experience.subtitle')}
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
-              Work <span className="gradient-text">History</span>
+              {t('experience.title')} <span className="gradient-text">{t('experience.highlight')}</span>
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
+            <div className="w-20 h-1 bg-gradient-to-r from-primary to-cyan-400 mx-auto rounded-full" />
           </div>
         </ScrollReveal>
 
         {/* Timeline */}
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           {experiences.map((exp, index) => (
-            <ScrollReveal key={exp.id} animation="fade-up" delay={index * 150}>
-              <div className="relative pl-8 md:pl-0">
-                {/* Timeline Line */}
-                <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-primary to-purple-500" />
+            <ScrollReveal key={exp.id} animation="fade-right" delay={index * 150}>
+              <div className="relative pl-12">
+                {/* Timeline line + dot */}
+                <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-primary/50 to-transparent" />
+                <div className="absolute left-0 top-2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-background shadow-lg shadow-primary/30" />
 
-                {/* Timeline Dot */}
-                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-background shadow-lg" />
-
-                {/* Content Card */}
-                <div
-                  className={`md:w-[calc(50%-2rem)] ${
-                    index % 2 === 0 ? "md:mr-auto" : "md:ml-auto"
-                  }`}
-                >
-                  <div className="glass-card p-6 md:p-8 hover-lift">
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-xl font-bold text-foreground">
-                          {exp.position}
-                        </h3>
-                        <p className="text-primary font-semibold">{exp.company}</p>
-                      </div>
-                      <div className="flex items-center gap-1 px-3 py-1 bg-primary/10 rounded-full">
-                        <Briefcase className="h-3 w-3 text-primary" />
-                        <span className="text-xs font-medium text-primary">
-                          Intern
-                        </span>
-                      </div>
+                {/* Card */}
+                <div className="glass-card p-6 md:p-8 hover-lift group">
+                  {/* Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                        {exp.position}
+                      </h3>
+                      <p className="text-primary font-semibold">{exp.company}</p>
                     </div>
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-primary/10 rounded-full self-start">
+                      <Briefcase className="h-3 w-3 text-primary" />
+                      <span className="text-xs font-medium text-primary">Intern</span>
+                    </div>
+                  </div>
 
-                    {/* Meta Info */}
-                    <div className="flex flex-wrap gap-4 mb-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        <span>{exp.duration} • {exp.period}</span>
+                  {/* Meta */}
+                  <div className="flex flex-wrap gap-4 mb-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="h-4 w-4" />
+                      <span>{exp.duration} • {exp.period}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="h-4 w-4" />
+                      <span>{exp.location}</span>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-muted-foreground mb-4 leading-relaxed">{exp.description}</p>
+
+                  {/* Responsibilities */}
+                  <div className="space-y-2.5 mb-5">
+                    {exp.responsibilities.map((resp, idx) => (
+                      <div key={idx} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground leading-relaxed">{resp}</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        <span>{exp.location}</span>
-                      </div>
-                    </div>
+                    ))}
+                  </div>
 
-                    {/* Description */}
-                    <p className="text-muted-foreground mb-4">{exp.description}</p>
-
-                    {/* Responsibilities */}
-                    <div className="space-y-2 mb-4">
-                      {exp.responsibilities.map((resp, idx) => (
-                        <div key={idx} className="flex items-start gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-muted-foreground">
-                            {resp}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Technologies */}
-                    <div className="flex flex-wrap gap-2">
-                      {exp.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 text-xs font-medium bg-secondary text-secondary-foreground rounded-full"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+                  {/* Technologies */}
+                  <div className="flex flex-wrap gap-2">
+                    {exp.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 text-xs font-medium bg-secondary text-secondary-foreground rounded-full"
+                      >
+                        {tech}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>

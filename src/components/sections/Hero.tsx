@@ -70,8 +70,8 @@ const Hero = () => {
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-cyan-400/10 rounded-full blur-3xl" />
       </div>
 
       {/* Grid Pattern Overlay */}
@@ -160,14 +160,18 @@ const Hero = () => {
           <div className="order-1 lg:order-2 flex justify-center lg:justify-end animate-fade-up">
             <div className="relative">
               {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-500 rounded-full blur-2xl opacity-30 animate-pulse-glow" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary to-cyan-400 rounded-full blur-2xl opacity-30 animate-pulse-glow" />
               
               {/* Image Container */}
               <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-primary/30 glass-card p-2">
-                <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20">
+                <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-cyan-400/20">
                   <img
                     src="/hero-rehan.webp"
                     alt="Rehan Maulana - Web Developer"
+                    width={384}
+                    height={384}
+                    fetchPriority="high"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -181,7 +185,7 @@ const Hero = () => {
                 <Zap className="h-7 w-7 text-yellow-500" />
               </div>
               <div className="absolute top-1/2 -right-8 w-12 h-12 glass-card rounded-2xl flex items-center justify-center animate-float hover-glow" style={{ animationDelay: "2s" }}>
-                <Rocket className="h-6 w-6 text-purple-500" />
+                <Rocket className="h-6 w-6 text-cyan-400" />
               </div>
               <div className="absolute top-8 -left-6 w-12 h-12 glass-card rounded-2xl flex items-center justify-center animate-float hover-glow" style={{ animationDelay: "1.5s" }}>
                 <Braces className="h-6 w-6 text-green-500" />

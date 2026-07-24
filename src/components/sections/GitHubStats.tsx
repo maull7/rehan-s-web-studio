@@ -4,6 +4,12 @@ import ScrollReveal from "@/components/ScrollReveal";
 import SectionParticles from "@/components/SectionParticles";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+interface LanguageData {
+  name: string;
+  percentage: number;
+  color: string;
+}
+
 interface GitHubUser {
   public_repos: number;
   followers: number;
@@ -27,13 +33,16 @@ interface Stats {
   contributions: number;
 }
 
-interface LanguageData {
-  name: string;
-  percentage: number;
-  color: string;
-}
-
 const GITHUB_USERNAME = "maull7";
+
+const FALLBACK_LANGUAGES: LanguageData[] = [
+  { name: "TypeScript", percentage: 35, color: "#3178c6" },
+  { name: "JavaScript", percentage: 25, color: "#f1e05a" },
+  { name: "Python", percentage: 20, color: "#3572A5" },
+  { name: "HTML", percentage: 10, color: "#e34c26" },
+  { name: "CSS", percentage: 7, color: "#563d7c" },
+  { name: "PHP", percentage: 3, color: "#4F5D95" },
+];
 
 // Language colors mapping
 const languageColors: Record<string, string> = {
@@ -127,23 +136,17 @@ const GitHubStats = () => {
     return { currentStreak: Math.min(current, 30), longestStreak: longest, totalContributions: total };
   }, [contributionData]);
 
-  // Fallback data in case API fails or rate limited
-  const fallbackLanguages: LanguageData[] = [
-    { name: "TypeScript", percentage: 35, color: "#3178c6" },
-    { name: "JavaScript", percentage: 25, color: "#f1e05a" },
-    { name: "Python", percentage: 20, color: "#3572A5" },
-    { name: "HTML", percentage: 10, color: "#e34c26" },
-    { name: "CSS", percentage: 7, color: "#563d7c" },
-    { name: "PHP", percentage: 3, color: "#4F5D95" },
-  ];
-
-  const fallbackStats: Stats = {
-    repos: 24,
-    stars: 156,
-    forks: 42,
-    followers: 89,
-    contributions: totalContributions,
-  };
+  // Fallback stats use module-level FALLBACK_LANGUAGES and adapt contributions.
+  const fallbackStats: Stats = useMemo(
+    () => ({
+      repos: 24,
+      stars: 156,
+      forks: 42,
+      followers: 89,
+      contributions: totalContributions,
+    }),
+    [totalContributions]
+  );
 
   useEffect(() => {
     const fetchGitHubData = async () => {
@@ -162,7 +165,7 @@ const GitHubStats = () => {
         if (userData.message || !Array.isArray(reposData)) {
           console.warn("GitHub API rate limited, using fallback data");
           setStats(fallbackStats);
-          setLanguages(fallbackLanguages);
+          setLanguages(FALLBACK_LANGUAGES);
           setLoading(false);
           return;
         }
@@ -197,7 +200,7 @@ const GitHubStats = () => {
             .slice(0, 6);
           setLanguages(langData);
         } else {
-          setLanguages(fallbackLanguages);
+          setLanguages(FALLBACK_LANGUAGES);
         }
 
         setStats({
@@ -212,12 +215,13 @@ const GitHubStats = () => {
         console.error("Error fetching GitHub data:", error);
         // Use fallback data on error
         setStats(fallbackStats);
-        setLanguages(fallbackLanguages);
+        setLanguages(FALLBACK_LANGUAGES);
         setLoading(false);
       }
     };
 
     fetchGitHubData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalContributions]);
 
   useEffect(() => {
@@ -270,8 +274,8 @@ const GitHubStats = () => {
       icon: GitFork,
       label: "Total Forks",
       value: animatedStats.forks,
-      color: "text-purple-500",
-      bgColor: "bg-purple-500/10",
+      color: "text-cyan-400",
+      bgColor: "bg-cyan-400/10",
     },
     {
       icon: Activity,
@@ -283,7 +287,7 @@ const GitHubStats = () => {
   ];
 
   // Get month labels for heatmap
-  const getMonthLabels = () => {
+  const monthLabels = useMemo(() => {
     const months: string[] = [];
     const today = new Date();
     for (let i = 11; i >= 0; i--) {
@@ -292,19 +296,19 @@ const GitHubStats = () => {
       months.push(date.toLocaleDateString('en', { month: 'short' }));
     }
     return months;
-  };
+  }, []);
 
   // Organize data into weeks for the heatmap
-  const getWeeksData = () => {
+  const weeksData = useMemo(() => {
     const weeks: typeof contributionData[] = [];
     let currentWeek: typeof contributionData = [];
-    
+
     // Pad start to align with Sunday
     const firstDay = contributionData[0]?.date.getDay() || 0;
     for (let i = 0; i < firstDay; i++) {
       currentWeek.push({ date: new Date(), count: -1, level: -1 });
     }
-    
+
     contributionData.forEach((day) => {
       currentWeek.push(day);
       if (currentWeek.length === 7) {
@@ -312,27 +316,18 @@ const GitHubStats = () => {
         currentWeek = [];
       }
     });
-    
+
     if (currentWeek.length > 0) {
       weeks.push(currentWeek);
     }
-    
-    return weeks;
-  };
 
-  const weeksData = useMemo(() => getWeeksData(), [contributionData]);
-  const monthLabels = useMemo(() => getMonthLabels(), []);
+    return weeks;
+  }, [contributionData]);
 
   return (
     <section id="github" className="section-padding relative overflow-hidden">
-      {/* Floating Particles */}
-      <SectionParticles count={20} />
-
-      {/* Background glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-0 w-72 h-72 bg-green-500/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-primary/10 rounded-full blur-[100px]" />
-      </div>
+      {/* Floating Particles - kept only in this data section for visual interest */}
+      <SectionParticles count={15} />
 
       <div className="container-custom relative z-10">
         {/* Section Header */}
@@ -344,7 +339,7 @@ const GitHubStats = () => {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
               {t('github.title')} <span className="gradient-text">{t('github.highlight')}</span>
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
+            <div className="w-20 h-1 bg-gradient-to-r from-primary to-cyan-400 mx-auto rounded-full" />
           </div>
         </ScrollReveal>
 
@@ -451,20 +446,22 @@ const GitHubStats = () => {
                         if (day.level === -1) {
                           return <div key={dayIndex} className="w-[10px] h-[10px] sm:w-[12px] sm:h-[12px]" />;
                         }
-                        
+
                         const levelColors = [
-                          "bg-muted hover:bg-muted/80",
-                          "bg-green-900/60 hover:bg-green-900/80",
-                          "bg-green-700/70 hover:bg-green-700/90",
-                          "bg-green-500/80 hover:bg-green-500",
-                          "bg-green-400 hover:bg-green-300",
+                          "bg-muted/70 border border-border/30",
+                          "bg-primary/20",
+                          "bg-primary/45",
+                          "bg-primary/70",
+                          "bg-primary shadow-[0_0_6px_hsl(var(--primary)/0.6)]",
                         ];
-                        
+
                         return (
                           <div
                             key={dayIndex}
                             className={`w-[10px] h-[10px] sm:w-[12px] sm:h-[12px] rounded-sm ${levelColors[day.level]} transition-all cursor-pointer hover:scale-125 hover:z-10`}
                             title={`${day.date.toLocaleDateString()}: ${day.count} contributions`}
+                            role="img"
+                            aria-label={`${day.count} contributions on ${day.date.toLocaleDateString()}`}
                           />
                         );
                       })}
@@ -472,12 +469,18 @@ const GitHubStats = () => {
                   ))}
                 </div>
               </div>
-              
+
               {/* Legend */}
               <div className="flex items-center justify-end gap-2 mt-4 text-xs text-muted-foreground">
                 <span>Less</span>
                 <div className="flex gap-[2px] sm:gap-[3px]">
-                  {["bg-muted", "bg-green-900/60", "bg-green-700/70", "bg-green-500/80", "bg-green-400"].map((color, i) => (
+                  {[
+                    "bg-muted/70 border border-border/30",
+                    "bg-primary/20",
+                    "bg-primary/45",
+                    "bg-primary/70",
+                    "bg-primary",
+                  ].map((color, i) => (
                     <div key={i} className={`w-[10px] h-[10px] sm:w-[12px] sm:h-[12px] rounded-sm ${color}`} />
                   ))}
                 </div>

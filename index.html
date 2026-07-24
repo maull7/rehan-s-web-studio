@@ -3,16 +3,108 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Portofolio - Rehan Maulana</title>
-    <meta name="description" content="Project Portofolio" />
+
+    <title>Rehan Maulana | Web Developer portfolio</title>
+    <meta
+      name="description"
+      content="Rehan Maulana — Web Developer specializing in modern, scalable, and creative web experiences with React, Next.js, and Node.js. View featured projects and get in touch."
+    />
     <meta name="author" content="Rehan Maulana" />
-    <link rel="shortcut icon" href="/my-logo.png" type="image/x-icon">
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="PortoFolio - Rehan Maulana" />
-    <meta property="og:description" content="Project Portofolio" />
+    <meta
+      name="keywords"
+      content="Rehan Maulana, Web Developer, Frontend Developer, React Developer, Next.js, Portfolio, Indonesia"
+    />
+    <link rel="canonical" href="https://rehanmaulana.dev" />
+
+    <link rel="icon" href="/my-logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/my-logo.png" />
+    <meta name="theme-color" content="#06b6d4" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-  
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Rehan Maulana — Web Developer" />
+    <meta property="og:title" content="Rehan Maulana | Web Developer Portfolio" />
+    <meta
+      property="og:description"
+      content="Web Developer specializing in modern, scalable web experiences with React, Next.js, and Node.js."
+    />
+    <meta property="og:url" content="https://rehanmaulana.dev" />
+    <meta property="og:image" content="https://rehanmaulana.dev/hero-rehan.webp" />
+    <meta property="og:image:alt" content="Rehan Maulana — Web Developer" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rehan Maulana | Web Developer Portfolio" />
+    <meta
+      name="twitter:description"
+      content="Web Developer specializing in modern, scalable web experiences with React, Next.js, and Node.js."
+    />
+    <meta name="twitter:image" content="https://rehanmaulana.dev/hero-rehan.webp" />
+    <meta name="twitter:image:alt" content="Rehan Maulana — Web Developer" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Rehan Maulana",
+        "jobTitle": "Web Developer",
+        "url": "https://rehanmaulana.dev",
+        "image": "https://rehanmaulana.dev/hero-rehan.webp",
+        "email": "mailto:rehanmaulanaaa121@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "ID",
+          "addressRegion": "Bogor"
+        },
+        "sameAs": [
+          "https://github.com/maull7",
+          "https://linkedin.com/in/rehanmaulana",
+          "https://instagram.com/hxans_1"
+        ],
+        "knowsAbout": ["React", "Next.js", "Node.js", "Laravel", "Tailwind CSS"]
+      }
+    </script>
+
+    <!-- Fonts: preconnect + async CSS to avoid render-blocking -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      />
+    </noscript>
+
+    <!-- Apply saved theme before paint to avoid FOUC -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("portfolio-theme") || "dark";
+          if (t === "system") {
+            t = window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          }
+          document.documentElement.classList.add(t);
+        } catch (e) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
   </head>
 
   <body>

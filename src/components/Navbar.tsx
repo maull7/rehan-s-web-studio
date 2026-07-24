@@ -10,9 +10,8 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { name: "Home", href: "#home", id: "home", key: "nav.home" },
   { name: "About", href: "#about", id: "about", key: "nav.about" },
-  { name: "ID Card", href: "#idcard", id: "idcard", key: "nav.idcard" },
-  { name: "Certifications", href: "#certifications", id: "certifications", key: "nav.certifications" },
   { name: "Experience", href: "#experience", id: "experience", key: "nav.experience" },
+  { name: "ID Card", href: "#idcard", id: "idcard", key: "nav.idcard" },
   { name: "Projects", href: "#projects", id: "projects", key: "nav.projects" },
   { name: "GitHub", href: "#github", id: "github", key: "nav.github" },
   { name: "Contact", href: "#contact", id: "contact", key: "nav.contact" },
@@ -27,10 +26,16 @@ const Navbar = () => {
   const activeSection = useActiveSection(navLinks.map((link) => link.id));
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 50);
+        ticking = false;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

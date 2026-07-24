@@ -2,7 +2,6 @@ import { ArrowRight, ExternalLink, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
-import SectionParticles from "@/components/SectionParticles";
 export const projects = [
   {
     id: "cat-sebasa",
@@ -179,16 +178,6 @@ export const projects = [
 const Projects = () => {
   return (
     <section id="projects" className="section-padding bg-card/30 relative overflow-hidden">
-      {/* Floating Particles */}
-      <SectionParticles count={25} />
-
-      {/* Background glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-80 h-80 bg-primary/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px]" />
-        <div className="absolute top-1/2 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px]" />
-      </div>
-
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
@@ -199,7 +188,7 @@ const Projects = () => {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4">
               Featured <span className="gradient-text">Work</span>
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-primary to-purple-500 mx-auto rounded-full" />
+            <div className="w-20 h-1 bg-gradient-to-r from-primary to-cyan-400 mx-auto rounded-full" />
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
               Here are some of the projects I've worked on. Each project represents
               a unique challenge and learning experience.
@@ -210,7 +199,11 @@ const Projects = () => {
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {projects.map((project, index) => (
-            <ScrollReveal key={project.id} animation="zoom" delay={index * 100}>
+            <ScrollReveal
+              key={project.id}
+              animation={index % 3 === 0 ? "fade-right" : index % 3 === 2 ? "fade-left" : "zoom"}
+              delay={index * 80}
+            >
               <div className="group glass-card overflow-hidden hover-lift h-full">
                 {/* Thumbnail */}
                 <div className="relative overflow-hidden aspect-video">
@@ -219,6 +212,7 @@ const Projects = () => {
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
