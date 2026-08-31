@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useMemo, useCallback, memo } from "react";
 import { Code2, Globe, Layers, GripVertical } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { cn } from "@/lib/utils";
+import MascotImage from "@/components/MascotImage";
 
 const techIcons = [
   { name: "HTML", color: "#E34F26" },
@@ -424,15 +425,7 @@ const IdCard3D = () => {
                 >
                   <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary to-cyan-400 opacity-80 blur-sm" />
                   <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                    <img
-                      src="/hero-rehan.webp"
-                      alt="Rehan Maulana"
-                      width={112}
-                      height={112}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover"
-                    />
+                    <MascotImage alt="Rehan clay mascot profile" className="h-full w-full" />
                   </div>
                   <div className="absolute bottom-1 right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
                     <span className="w-2 h-2 bg-white rounded-full animate-ping" />

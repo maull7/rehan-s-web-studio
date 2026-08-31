@@ -1,7 +1,10 @@
 import { Github, Linkedin, Mail, Heart } from "lucide-react";
+import MascotImage from "@/components/MascotImage";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
 
   return (
     <footer className="border-t border-border/50 bg-card/50 backdrop-blur-sm">
@@ -9,9 +12,14 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo & Copyright */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>© {currentYear} Rehan Maulana.</span>
+            <span>{t("footer.designed")}</span>
             <span className="hidden sm:inline">Made with</span>
             <Heart className="h-4 w-4 text-red-500 fill-red-500 hidden sm:inline" />
+          </div>
+
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <span>{t("footer.thanks")}</span>
+            <MascotImage alt="Rehan clay mascot waving goodbye" className="h-14 w-14" />
           </div>
 
           {/* Social Links */}

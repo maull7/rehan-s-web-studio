@@ -10,10 +10,10 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { name: "Home", href: "#home", id: "home", key: "nav.home" },
   { name: "About", href: "#about", id: "about", key: "nav.about" },
-  { name: "Experience", href: "#experience", id: "experience", key: "nav.experience" },
   { name: "ID Card", href: "#idcard", id: "idcard", key: "nav.idcard" },
+  { name: "Skills", href: "#skills", id: "skills", key: "nav.skills" },
   { name: "Projects", href: "#projects", id: "projects", key: "nav.projects" },
-  { name: "GitHub", href: "#github", id: "github", key: "nav.github" },
+  { name: "Experience", href: "#experience", id: "experience", key: "nav.experience" },
   { name: "Contact", href: "#contact", id: "contact", key: "nav.contact" },
 ];
 
@@ -55,8 +55,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "glass py-3" : "bg-transparent py-5"
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled ? "clay-nav mx-3 mt-3 py-3 sm:mx-6" : "bg-[#fffaf4]/95 py-4 dark:bg-background/95"
       }`}
     >
       <div className="container-custom flex items-center justify-between">
@@ -106,6 +106,10 @@ const Navbar = () => {
             ) : (
               <Moon className="h-5 w-5" />
             )}
+          </Button>
+
+          <Button className="hidden rounded-full bg-primary px-4 text-xs font-bold shadow-md shadow-primary/20 sm:inline-flex" asChild>
+            <a href="#contact">{t("nav.letsTalk")} <span className="ml-1">→</span></a>
           </Button>
 
           {/* Mobile Menu Button */}

@@ -1,16 +1,17 @@
 import { Helmet } from "react-helmet-async";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 import Hero from "@/components/sections/Hero";
 import LazySection from "@/components/LazySection";
 
 // ponytail: below-the-fold sections are lazy-loaded near the viewport.
 // Hero (above the fold) remains eager so LCP text/images paint immediately.
 const About = () => import("@/components/sections/About").then((m) => ({ default: m.default }));
-const Experience = () => import("@/components/sections/Experience").then((m) => ({ default: m.default }));
 const IdCard3D = () => import("@/components/sections/IdCard3D").then((m) => ({ default: m.default }));
+const Skills = () => import("@/components/sections/Skills").then((m) => ({ default: m.default }));
+const DeveloperLife = () => import("@/components/sections/DeveloperLife").then((m) => ({ default: m.default }));
+const Experience = () => import("@/components/sections/Experience").then((m) => ({ default: m.default }));
 const Projects = () => import("@/components/sections/Projects").then((m) => ({ default: m.default }));
-const GitHubStats = () => import("@/components/sections/GitHubStats").then((m) => ({ default: m.default }));
 const Contact = () => import("@/components/sections/Contact").then((m) => ({ default: m.default }));
 
 const Index = () => {
@@ -41,10 +42,11 @@ const Index = () => {
         <main id="main-content">
           <Hero />
           <LazySection loader={About} minHeight={800} />
-          <LazySection loader={Experience} minHeight={500} />
-          <LazySection loader={IdCard3D} minHeight={900} />
+          <LazySection loader={IdCard3D} minHeight={850} />
+          <LazySection loader={Skills} minHeight={600} />
           <LazySection loader={Projects} minHeight={900} />
-          <LazySection loader={GitHubStats} minHeight={900} />
+          <LazySection loader={DeveloperLife} minHeight={700} />
+          <LazySection loader={Experience} minHeight={500} />
           <LazySection loader={Contact} minHeight={700} />
         </main>
         <Footer />

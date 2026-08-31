@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "@/components/ScrollReveal";
+import MascotImage from "@/components/MascotImage";
+import { useLanguage } from "@/contexts/LanguageContext";
+import ClayIcon from "@/components/ClayIcon";
 
 const contactInfo = [
   {
@@ -49,6 +52,7 @@ const socialLinks = [
 ];
 
 const Contact = () => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -83,7 +87,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="section-padding bg-card/30 relative overflow-hidden">
+    <section id="contact" className="section-padding relative overflow-hidden bg-pink-50/60 dark:bg-card/30">
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal animation="fade">
@@ -102,6 +106,13 @@ const Contact = () => {
           </div>
         </ScrollReveal>
 
+        <ScrollReveal>
+          <div className="mx-auto mb-10 flex max-w-4xl flex-col items-center justify-center gap-5 rounded-[2rem] border border-orange-200/70 bg-orange-100/50 p-6 text-center dark:border-border dark:bg-card/60 sm:flex-row sm:text-left">
+            <MascotImage alt="Rehan clay mascot ready to receive a message" className="h-32 w-32 shrink-0" />
+            <div><h2 className="text-2xl font-black md:text-3xl">{t("contact.newTitle")}</h2><p className="mt-2 text-muted-foreground">{t("contact.newDescription")}</p></div>
+          </div>
+        </ScrollReveal>
+
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 max-w-6xl mx-auto">
           {/* Contact Info */}
           <div className="lg:col-span-2 space-y-6">
@@ -117,7 +128,7 @@ const Contact = () => {
                         className="flex items-center gap-4 p-3 rounded-xl hover:bg-primary/10 transition-colors group"
                       >
                         <div className="p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                          <item.icon className="h-5 w-5" />
+                          <ClayIcon name={item.label === "Email" ? "mailbox" : item.label === "Phone" ? "code" : "sparkle"} tone={item.label === "Email" ? "pink" : item.label === "Phone" ? "blue" : "purple"} className="h-9 w-9" />
                         </div>
                         <div>
                           <p className="text-sm text-muted-foreground">{item.label}</p>

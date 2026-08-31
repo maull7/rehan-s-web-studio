@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    --background: 204 25% 97%;
-    --foreground: 215 28% 17%;
-    --card: 0 0% 100%;
+    --background: 42 70% 97%;
+    --foreground: 256 30% 20%;
+    --card: 45 100% 99%;
     --card-foreground: 215 28% 17%;
     --popover: 0 0% 100%;
     --popover-foreground: 215 28% 17%;
-    --primary: 187 94% 42%;
-    --primary-foreground: 204 25% 97%;
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 215 28% 17%;
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 187 94% 42%;
-    --accent-foreground: 204 25% 97%;
+    --primary: 264 72% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 274 55% 94%;
+    --secondary-foreground: 256 30% 20%;
+    --muted: 42 45% 92%;
+    --muted-foreground: 256 15% 45%;
+    --accent: 201 95% 65%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 204 25% 97%;
-    --border: 214 20% 90%;
-    --input: 214 20% 90%;
-    --ring: 187 94% 42%;
-    --radius: 0.75rem;
+    --border: 275 31% 85%;
+    --input: 275 31% 85%;
+    --ring: 263 72% 55%;
+    --radius: 1.25rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -35,25 +35,25 @@
   }
 
   .dark {
-    --background: 215 28% 7%;
+    --background: 231 34% 10%;
     --foreground: 210 20% 92%;
-    --card: 215 25% 11%;
+    --card: 231 29% 14%;
     --card-foreground: 210 20% 92%;
     --popover: 215 25% 11%;
     --popover-foreground: 210 20% 92%;
-    --primary: 187 92% 48%;
-    --primary-foreground: 215 28% 7%;
-    --secondary: 215 19% 18%;
+    --primary: 263 80% 70%;
+    --primary-foreground: 231 34% 10%;
+    --secondary: 231 23% 20%;
     --secondary-foreground: 210 20% 92%;
-    --muted: 215 19% 18%;
-    --muted-foreground: 215 18% 60%;
-    --accent: 187 92% 48%;
-    --accent-foreground: 215 28% 7%;
+    --muted: 231 23% 20%;
+    --muted-foreground: 231 15% 68%;
+    --accent: 201 96% 62%;
+    --accent-foreground: 231 34% 10%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 210 20% 92%;
-    --border: 215 19% 18%;
-    --input: 215 19% 18%;
-    --ring: 187 92% 48%;
+    --border: 231 23% 25%;
+    --input: 231 23% 25%;
+    --ring: 263 80% 70%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 187 92% 48%;
@@ -86,19 +86,23 @@
   }
   
   .glass-card {
-    @apply bg-card/60 backdrop-blur-lg border border-border/30 rounded-2xl shadow-lg;
+    @apply bg-card/85 backdrop-blur-lg border border-white/80 rounded-3xl shadow-[0_8px_0_rgba(113,76,139,.11),0_15px_28px_rgba(113,76,139,.08),inset_0_2px_0_rgba(255,255,255,.8)] dark:border-white/10 dark:shadow-[0_8px_0_rgba(0,0,0,.22),0_15px_28px_rgba(0,0,0,.12)];
   }
   
   .gradient-text {
-    @apply bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-purple-500 to-orange-400 bg-clip-text text-transparent;
+  }
+
+  .clay-gradient-text {
+    @apply bg-gradient-to-br from-purple-500 via-pink-400 to-orange-400 bg-clip-text text-transparent;
   }
   
   .gradient-bg {
-    @apply bg-gradient-to-br from-primary/20 via-background to-cyan-400/20;
+    @apply bg-gradient-to-br from-purple-200/60 via-background to-orange-100/70 dark:from-primary/20 dark:via-background dark:to-blue-400/10;
   }
   
   .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(113,76,139,.14)];
   }
   
   .hover-glow {
@@ -112,6 +116,73 @@
   .container-custom {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
+
+  .sticker-card {
+    @apply rounded-2xl border-2 border-white/80 shadow-[3px_5px_0_rgba(93,67,111,.12)] dark:border-white/10;
+  }
+
+  .pastel-panel {
+    @apply rounded-[2rem] border border-purple-200/70 bg-white/70 shadow-[0_18px_45px_rgba(113,76,139,.09)] backdrop-blur-sm dark:border-border dark:bg-card/70;
+  }
+
+  .clay-nav {
+    @apply rounded-[1.75rem] border border-white/80 bg-white/75 shadow-[0_10px_0_rgba(102,73,132,.12),inset_0_2px_0_rgba(255,255,255,.9)] backdrop-blur-md dark:border-white/10 dark:bg-card/70 dark:shadow-[0_10px_0_rgba(0,0,0,.2)];
+  }
+
+  .clay-logo {
+    @apply rounded-2xl bg-[#fff1bd] px-4 py-2 text-lg font-black tracking-tight text-[#443452] shadow-[2px_4px_0_rgba(153,117,65,.18)] dark:bg-purple-500/20 dark:text-foreground;
+  }
+
+  .clay-logo span {
+    @apply text-primary;
+  }
+
+  .clay-nav-link {
+    @apply whitespace-nowrap rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition-all hover:bg-purple-100 hover:text-purple-700 dark:hover:bg-purple-500/15 dark:hover:text-purple-200;
+  }
+
+  .clay-badge {
+    @apply rounded-full border border-white/80 bg-[#e7dcff] px-4 py-2 text-sm font-bold text-purple-700 shadow-[2px_4px_0_rgba(122,91,163,.14)] dark:border-white/10 dark:bg-purple-500/20 dark:text-purple-200;
+  }
+
+  .clay-button {
+    @apply rounded-full border-0 bg-[#8b5cf6] text-white shadow-[0_6px_0_#6841b6,0_12px_20px_rgba(124,85,187,.2)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#956bf7] hover:shadow-[0_7px_0_#6841b6,0_15px_24px_rgba(124,85,187,.25)] active:translate-y-1 active:shadow-[0_2px_0_#6841b6];
+  }
+
+  .clay-button-secondary {
+    @apply border-2 border-white/80 bg-[#ffdfe9] text-[#6f4774] shadow-[0_5px_0_#d8a7bc] hover:bg-[#ffe8ef] hover:text-[#6f4774] dark:border-white/10 dark:bg-purple-500/15 dark:text-purple-100 dark:shadow-[0_5px_0_rgba(0,0,0,.25)];
+  }
+
+  .clay-icon-button {
+    @apply rounded-2xl bg-[#d9f2ff] shadow-[0_4px_0_#a6d3e8] hover:bg-[#c8ecff] dark:bg-blue-500/15 dark:shadow-[0_4px_0_rgba(0,0,0,.25)];
+  }
+
+  .clay-hero-stage {
+    @apply shadow-[inset_10px_12px_0_rgba(255,255,255,.55),inset_-10px_-12px_0_rgba(182,142,207,.12),0_16px_0_rgba(123,86,157,.14)] dark:shadow-[inset_10px_12px_0_rgba(255,255,255,.05),inset_-10px_-12px_0_rgba(0,0,0,.12),0_16px_0_rgba(0,0,0,.22)];
+  }
+
+  .clay-shadow-soft {
+    @apply shadow-[0_6px_0_rgba(111,77,139,.16),inset_0_2px_0_rgba(255,255,255,.75)] dark:shadow-[0_6px_0_rgba(0,0,0,.22),inset_0_2px_0_rgba(255,255,255,.1)];
+  }
+
+  .clay-speech {
+    @apply rounded-[1.5rem] rounded-bl-md bg-white px-5 py-3 text-center text-xs font-bold text-[#51405f] shadow-[0_6px_0_rgba(111,77,139,.14),inset_0_2px_0_rgba(255,255,255,.9)] dark:bg-card dark:text-foreground;
+  }
+
+  .clay-coffee {
+    @apply shadow-[0_5px_0_rgba(111,77,139,.13),inset_0_2px_0_rgba(255,255,255,.9)];
+  }
+
+  .clay-tile {
+    @apply rounded-[2rem] border-2 border-white/80 bg-white/75 shadow-[0_8px_0_rgba(113,76,139,.12),inset_0_3px_0_rgba(255,255,255,.9)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_11px_0_rgba(113,76,139,.14),0_18px_25px_rgba(113,76,139,.1)] dark:border-white/10 dark:bg-card/70 dark:shadow-[0_8px_0_rgba(0,0,0,.24)];
+  }
+
+  .clay-blob {
+    @apply pointer-events-none absolute h-64 w-64 rounded-[42%_58%_63%_37%/41%_42%_58%_59%] blur-2xl;
+  }
+
+  .clay-blob-purple { @apply bg-purple-200/50 dark:bg-purple-700/10; }
+  .clay-blob-yellow { @apply bg-yellow-200/50 dark:bg-yellow-600/10; }
 }
 
 @layer utilities {

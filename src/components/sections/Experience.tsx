@@ -1,6 +1,8 @@
-import { Briefcase, Calendar, MapPin, CheckCircle2 } from "lucide-react";
+import { Calendar, MapPin, CheckCircle2 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useLanguage } from "@/contexts/LanguageContext";
+import MascotImage from "@/components/MascotImage";
+import ClayIcon from "@/components/ClayIcon";
 
 const experiences = [
   {
@@ -51,7 +53,8 @@ const Experience = () => {
                 <div className="absolute left-0 top-2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-background shadow-lg shadow-primary/30" />
 
                 {/* Card */}
-                <div className="glass-card p-6 md:p-8 hover-lift group">
+                <div className="glass-card relative p-6 md:p-8 hover-lift group">
+                  <MascotImage alt="Rehan clay mascot" className="absolute right-5 top-5 h-16 w-16 opacity-80" />
                   {/* Header */}
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                     <div>
@@ -61,7 +64,7 @@ const Experience = () => {
                       <p className="text-primary font-semibold">{exp.company}</p>
                     </div>
                     <div className="flex items-center gap-1.5 px-3 py-1 bg-primary/10 rounded-full self-start">
-                      <Briefcase className="h-3 w-3 text-primary" />
+                      <ClayIcon name="toolbox" tone="purple" className="h-5 w-5" />
                       <span className="text-xs font-medium text-primary">Intern</span>
                     </div>
                   </div>

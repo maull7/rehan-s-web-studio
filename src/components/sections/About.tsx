@@ -2,21 +2,17 @@ import { Code2, Palette, Rocket, Users, Sparkles, Award, GraduationCap, External
 import ScrollReveal from "@/components/ScrollReveal";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import MascotImage from "@/components/MascotImage";
+import ClayIcon, { type ClayIconName } from "@/components/ClayIcon";
 
 const techStack = [
-  { name: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", color: "#E34F26" },
-  { name: "CSS3", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg", color: "#1572B6" },
-  { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", color: "#F7DF1E" },
-  { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg", color: "#3178C6" },
-  { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", color: "#61DAFB" },
-  { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", color: "#FFFFFF" },
-  { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", color: "#339933" },
-  { name: "Tailwind", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg", color: "#06B6D4" },
-  { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", color: "#F05032" },
-  { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg", color: "#FFFFFF" },
-  { name: "Laravel", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg", color: "#F05032" },
-  { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg", color: "#06B6D4" },
-  { name: "Svelte", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/svelte/svelte-original.svg", color: "#F05032" },
+  { name: "HTML5", icon: "code" as ClayIconName, color: "#E34F26" }, { name: "CSS3", icon: "sparkle" as ClayIconName, color: "#1572B6" },
+  { name: "JavaScript", icon: "code" as ClayIconName, color: "#F7DF1E" }, { name: "TypeScript", icon: "code" as ClayIconName, color: "#3178C6" },
+  { name: "React", icon: "sparkle" as ClayIconName, color: "#61DAFB" }, { name: "Next.js", icon: "terminal" as ClayIconName, color: "#FFFFFF" },
+  { name: "Node.js", icon: "rocket" as ClayIconName, color: "#339933" }, { name: "Tailwind", icon: "toolbox" as ClayIconName, color: "#06B6D4" },
+  { name: "Git", icon: "copy" as ClayIconName, color: "#F05032" }, { name: "GitHub", icon: "code" as ClayIconName, color: "#FFFFFF" },
+  { name: "Laravel", icon: "folder" as ClayIconName, color: "#F05032" }, { name: "PHP", icon: "code" as ClayIconName, color: "#06B6D4" },
+  { name: "Svelte", icon: "sparkle" as ClayIconName, color: "#F05032" },
 ];
 
 const highlights = [
@@ -66,7 +62,7 @@ const About = () => {
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
 
   return (
-    <section id="about" className="section-padding bg-card/30 relative overflow-hidden">
+    <section id="about" className="section-padding relative overflow-hidden bg-purple-50/80 dark:bg-card/30">
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <ScrollReveal>
@@ -78,6 +74,18 @@ const About = () => {
               {t('about.title')} <span className="gradient-text">{t('about.highlight')}</span>
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-cyan-400 mx-auto rounded-full" />
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="mb-20 grid items-center gap-8 rounded-[2rem] border border-purple-200/70 bg-white/55 p-6 shadow-xl shadow-purple-900/5 dark:border-border dark:bg-card/60 md:grid-cols-[220px_1fr] md:p-8">
+            <MascotImage alt="Rehan clay mascot with a coffee cup" className="mx-auto h-48 w-48" />
+            <div>
+              <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">{t("about.newBio")}</p>
+              <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+                {[["15+", "about.statProjects"], ["3+", "about.statYears"], ["10+", "about.statTech"], ["999+", "about.statCoffee"]].map(([value, label]) => <div key={label} className="rounded-2xl bg-secondary/70 p-4"><strong className="block text-2xl font-black text-primary">{value}</strong><span className="text-xs font-medium text-muted-foreground">{t(label)}</span></div>)}
+              </div>
+            </div>
           </div>
         </ScrollReveal>
 
@@ -103,7 +111,7 @@ const About = () => {
                   <ScrollReveal key={item.title} animation="zoom" delay={200 + index * 100}>
                     <div className="group glass-card p-4 hover-lift h-full relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-cyan-400/0 group-hover:from-primary/10 group-hover:to-cyan-400/10 transition-all duration-500" />
-                      <item.icon className="h-8 w-8 text-primary mb-2 group-hover:scale-110 transition-transform" />
+                      <ClayIcon name={(["code", "sparkle", "rocket", "toolbox"] as const)[index]} tone={(["purple", "pink", "blue", "green"] as const)[index]} className="mb-2 h-12 w-12 transition-transform group-hover:scale-110" />
                       <h3 className="font-semibold text-sm">{item.title}</h3>
                       <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
                     </div>
@@ -151,13 +159,7 @@ const About = () => {
                           : "none",
                       }}
                     >
-                      <img
-                        src={tech.icon}
-                        alt={tech.name}
-                        className="w-8 h-8 transition-all duration-300"
-                        loading="lazy"
-                        decoding="async"
-                      />
+                      <ClayIcon name={tech.icon} tone={hoveredTech === tech.name ? "pink" : "purple"} className="h-10 w-10 transition-transform duration-300 group-hover:scale-110" />
                     </div>
                     <span
                       className="text-[11px] text-center font-medium transition-colors duration-300"

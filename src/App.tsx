@@ -39,7 +39,7 @@ const App = () => {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
+        <ThemeProvider defaultTheme="light" storageKey="portfolio-theme">
           <LanguageProvider>
             <TooltipProvider delayDuration={200} skipDelayDuration={500}>
               <a href="#home" className="skip-link">
